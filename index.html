@@ -1,118 +1,1812 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Name Landing Page</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>荒利益高計算機</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="calculator-icon-192.png">
+    <meta name="theme-color" content="#111111">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #edf5ff;
+        --panel: #ffffff;
+        --text: #1c2534;
+        --muted: #657386;
+        --line: #dce3ee;
+        --primary: #2176ff;
+        --primary-dark: #1558c8;
+        --danger: #d92d20;
+        --purple: #7d4cc2;
+        --success: #12805c;
+        --warning: #b35a00;
+        --shadow: 0 18px 50px rgba(24, 38, 62, 0.12);
+      }
 
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
-      color: white;
-      min-height: 100vh;
-    }
+      * {
+        box-sizing: border-box;
+      }
 
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-    }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          linear-gradient(135deg, rgba(33, 118, 255, 0.1), transparent 34%),
+          var(--bg);
+        color: var(--text);
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+      }
 
-    .badge {
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 10px 18px;
-      border-radius: 999px;
-      font-size: 14px;
-      margin-bottom: 20px;
-      backdrop-filter: blur(8px);
-    }
+      .app {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
 
-    h1 {
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      margin-bottom: 16px;
-      line-height: 1.1;
-    }
+      main {
+        width: min(1520px, calc(100% - 36px));
+        margin: 0 auto;
+        padding: 22px 0 10px;
+        flex: 1;
+      }
 
-    p {
-      max-width: 700px;
-      font-size: 1.1rem;
-      line-height: 1.6;
-      color: #e2e8f0;
-      margin-bottom: 30px;
-    }
+      .header {
+        position: relative;
+        margin-bottom: 18px;
+        padding: 0;
+        text-align: center;
+      }
 
-    .buttons {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+      .plan-badge {
+        display: none;
+      }
 
-    .btn {
-      text-decoration: none;
-      padding: 14px 24px;
-      border-radius: 12px;
-      font-weight: bold;
-      transition: 0.3s ease;
-      display: inline-block;
-    }
+      .eyebrow {
+        display: none;
+      }
 
-    .btn-primary {
-      background: #38bdf8;
-      color: #0f172a;
-    }
+      h1 {
+        max-width: 100%;
+        margin: 0 auto;
+        font-size: clamp(2.4rem, 4.8vw, 4.8rem);
+        font-weight: 950;
+        line-height: 0.94;
+        white-space: nowrap;
+        letter-spacing: 0;
+      }
 
-    .btn-primary:hover {
-      background: #7dd3fc;
-      transform: translateY(-2px);
-    }
+      .subtitle {
+        max-width: 760px;
+        margin: 8px auto 0;
+        color: var(--muted);
+        font-size: 0.96rem;
+        line-height: 1.45;
+      }
 
-    .btn-secondary {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.3);
-      color: white;
-    }
+      .layout {
+        display: grid;
+        grid-template-columns: 390px 1fr;
+        gap: 18px;
+        align-items: start;
+      }
 
-    .btn-secondary:hover {
-      background: rgba(255,255,255,0.1);
-      transform: translateY(-2px);
-    }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+      }
 
-    .footer {
-      position: fixed;
-      bottom: 20px;
-      width: 100%;
-      text-align: center;
-      font-size: 14px;
-      color: #cbd5e1;
-    }
-  </style>
-</head>
-<body>
-  <section class="hero">
-    <div class="badge">Welcome to My Website</div>
-    <h1>Your Name Here</h1>
-    <p>
-      This is a modern starter landing page. You can use it for your personal website,
-      portfolio, app page, or business homepage.
-    </p>
-    <div class="buttons">
-      <a href="#" class="btn btn-primary">Get Started</a>
-      <a href="#" class="btn btn-secondary">Learn More</a>
+      .inputs {
+        padding: 16px;
+      }
+
+      .mode-toggle {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .solve-toggle {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .support-toggle {
+        display: none;
+        grid-template-columns: 78px repeat(3, 1fr);
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 12px;
+        padding: 8px;
+        border: 1px solid rgba(18, 128, 92, 0.18);
+        border-radius: 8px;
+        background: rgba(18, 128, 92, 0.05);
+      }
+
+      .support-toggle.is-visible {
+        display: grid;
+      }
+
+      .support-label {
+        color: var(--muted);
+        font-size: 0.76rem;
+        font-weight: 900;
+      }
+
+      .mode-button,
+      .solve-button,
+      .support-button {
+        min-height: 38px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfcff;
+        color: var(--text);
+        font: inherit;
+        font-size: 0.82rem;
+        font-weight: 900;
+        cursor: pointer;
+        transition:
+          background 160ms ease,
+          border-color 160ms ease,
+          box-shadow 160ms ease,
+          transform 160ms ease;
+      }
+
+      .mode-button:hover,
+      .mode-button:focus-visible,
+      .solve-button:hover,
+      .solve-button:focus-visible,
+      .support-button:hover,
+      .support-button:focus-visible {
+        border-color: var(--primary);
+        box-shadow: 0 10px 24px rgba(33, 118, 255, 0.14);
+        outline: none;
+        transform: translateY(-1px);
+      }
+
+      .mode-button.is-active,
+      .solve-button.is-active,
+      .support-button.is-active {
+        border-color: var(--success);
+        background: rgba(18, 128, 92, 0.1);
+        color: var(--success);
+      }
+
+      .field {
+        margin-bottom: 10px;
+      }
+
+      .field:last-child {
+        margin-bottom: 0;
+      }
+
+      .field-profit-target {
+        position: relative;
+        margin-bottom: 12px;
+        padding: 12px;
+        overflow: hidden;
+        border: 1px solid rgba(18, 128, 92, 0.28);
+        border-radius: 8px;
+        background:
+          linear-gradient(135deg, rgba(18, 128, 92, 0.13), rgba(33, 118, 255, 0.08)),
+          #ffffff;
+      }
+
+      .field-profit-target::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto;
+        height: 5px;
+        background: linear-gradient(90deg, var(--success), var(--primary));
+      }
+
+      .goal-kicker {
+        margin: 0 0 8px;
+        color: var(--success);
+        font-size: 0.78rem;
+        font-weight: 900;
+      }
+
+      .field-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 5px;
+      }
+
+      label {
+        display: block;
+        font-weight: 800;
+      }
+
+      .live-value {
+        max-width: 52%;
+        padding: 4px 8px;
+        border-radius: 8px;
+        background: rgba(33, 118, 255, 0.1);
+        color: var(--primary-dark);
+        font-size: 0.78rem;
+        font-weight: 900;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .field-profit-target label,
+      .field-profit-target .unit,
+      .field-profit-target .live-value {
+        color: var(--success);
+      }
+
+      .field-profit-target .live-value {
+        background: #ffffff;
+        box-shadow: 0 8px 20px rgba(18, 128, 92, 0.12);
+      }
+
+      .field-waste label,
+      .field-waste .unit,
+      .field-waste .live-value {
+        color: var(--danger);
+      }
+
+      .field-waste .live-value {
+        background: rgba(217, 45, 32, 0.1);
+      }
+
+      .field-discount label,
+      .field-discount .unit,
+      .field-discount .live-value {
+        color: var(--purple);
+      }
+
+      .field-discount .live-value {
+        background: rgba(125, 76, 194, 0.11);
+      }
+
+      .field-days label,
+      .field-days .unit,
+      .field-days .live-value {
+        color: var(--primary-dark);
+      }
+
+      .input-wrap {
+        position: relative;
+      }
+
+      input {
+        width: 100%;
+        height: 40px;
+        padding: 0 48px 0 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--text);
+        background: #fbfcff;
+        font-size: 1rem;
+        font-weight: 700;
+        outline: none;
+        transition:
+          border-color 160ms ease,
+          box-shadow 160ms ease,
+          background 160ms ease;
+      }
+
+      input:focus {
+        border-color: var(--primary);
+        background: #ffffff;
+        box-shadow: 0 0 0 4px rgba(33, 118, 255, 0.14);
+      }
+
+      input:disabled {
+        opacity: 0.62;
+        cursor: not-allowed;
+        background: #eef3f8;
+      }
+
+      .field.is-locked {
+        opacity: 0.76;
+      }
+
+      input[type="range"] {
+        height: 24px;
+        margin-top: 5px;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        accent-color: var(--primary);
+        cursor: pointer;
+      }
+
+      input[type="range"]:focus {
+        box-shadow: none;
+      }
+
+      .field-profit-target input[type="range"] {
+        accent-color: var(--success);
+      }
+
+      .field-waste input[type="range"] {
+        accent-color: var(--danger);
+      }
+
+      .field-discount input[type="range"] {
+        accent-color: var(--purple);
+      }
+
+      .unit {
+        position: absolute;
+        top: 50%;
+        right: 14px;
+        color: var(--muted);
+        font-weight: 800;
+        transform: translateY(-50%);
+      }
+
+      .rate-control {
+        margin-top: 6px;
+        padding: 8px;
+        border: 1px solid rgba(101, 115, 134, 0.16);
+        border-radius: 8px;
+        background: #ffffff;
+      }
+
+      .rate-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 3px;
+      }
+
+      .rate-head span:first-child {
+        color: var(--muted);
+        font-size: 0.84rem;
+        font-weight: 800;
+      }
+
+      .rate-value {
+        padding: 4px 8px;
+        border-radius: 8px;
+        background: rgba(101, 115, 134, 0.12);
+        color: var(--text);
+        font-size: 0.82rem;
+        font-weight: 900;
+      }
+
+      .field-waste .rate-value {
+        background: rgba(217, 45, 32, 0.1);
+        color: var(--danger);
+      }
+
+      .field-discount .rate-value {
+        background: rgba(125, 76, 194, 0.11);
+        color: var(--purple);
+      }
+
+      .hint {
+        min-height: 14px;
+        margin: 4px 0 0;
+        color: var(--warning);
+        font-size: 0.78rem;
+      }
+
+      .result-panel {
+        overflow: hidden;
+      }
+
+      .result {
+        padding: 18px;
+        border-bottom: 1px solid var(--line);
+        background: linear-gradient(135deg, rgba(18, 128, 92, 0.1), rgba(33, 118, 255, 0.09));
+      }
+
+      .result-label {
+        margin: 0 0 4px;
+        color: var(--muted);
+        font-weight: 800;
+      }
+
+      .result-value {
+        margin: 0;
+        color: var(--success);
+        font-size: clamp(2.6rem, 4.8vw, 4.7rem);
+        font-weight: 900;
+        line-height: 0.98;
+        overflow-wrap: anywhere;
+      }
+
+      .breakdown {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .metric {
+        padding: 9px;
+        border: 1px solid rgba(101, 115, 134, 0.18);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.68);
+      }
+
+      .metric span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.76rem;
+        font-weight: 700;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 2px;
+        font-size: 1.05rem;
+        overflow-wrap: anywhere;
+      }
+
+      .impact-panel {
+        display: grid;
+        gap: 7px;
+        margin-top: 12px;
+      }
+
+      .impact-row {
+        display: grid;
+        grid-template-columns: 86px 1fr 70px;
+        gap: 10px;
+        align-items: center;
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 800;
+      }
+
+      .impact-track {
+        height: 9px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(101, 115, 134, 0.16);
+      }
+
+      .impact-fill {
+        width: 0%;
+        height: 100%;
+        border-radius: inherit;
+        transition: width 180ms ease;
+      }
+
+      .impact-fill-waste {
+        background: var(--danger);
+      }
+
+      .impact-fill-discount {
+        background: var(--purple);
+      }
+
+      .impact-value {
+        text-align: right;
+        color: var(--text);
+        overflow-wrap: anywhere;
+      }
+
+      .target-summary {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 14px;
+        align-items: center;
+        margin-top: 12px;
+        padding: 12px;
+        border: 1px solid rgba(18, 128, 92, 0.2);
+        border-radius: 8px;
+        background: rgba(18, 128, 92, 0.08);
+      }
+
+      .target-summary span {
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+
+      .target-summary strong {
+        display: block;
+        margin-top: 2px;
+        color: var(--success);
+        font-size: 1.18rem;
+        overflow-wrap: anywhere;
+      }
+
+      .chart-area {
+        min-height: 390px;
+        padding: 16px 18px 18px;
+        background: #ffffff;
+      }
+
+      .chart-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 8px;
+      }
+
+      .chart-title h2 {
+        margin: 0;
+        font-size: 1.08rem;
+      }
+
+      .chart-title p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+
+      .graph-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 8px;
+      }
+
+      .graph-button {
+        min-height: 28px;
+        padding: 0 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfcff;
+        color: var(--text);
+        font: inherit;
+        font-size: 0.78rem;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .graph-button.is-active,
+      .graph-button:hover,
+      .graph-button:focus-visible {
+        border-color: var(--primary);
+        background: rgba(33, 118, 255, 0.1);
+        color: var(--primary-dark);
+        outline: none;
+      }
+
+      .chart-box {
+        position: relative;
+        height: 315px;
+      }
+
+      .scenario-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .scenario {
+        padding: 8px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfcff;
+      }
+
+      .scenario.is-active {
+        border-color: #111827;
+        box-shadow: 0 12px 28px rgba(17, 24, 39, 0.1);
+      }
+
+      .scenario span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.7rem;
+        font-weight: 800;
+      }
+
+      .scenario strong {
+        display: block;
+        margin-top: 2px;
+        font-size: 0.96rem;
+        overflow-wrap: anywhere;
+      }
+
+      footer {
+        padding: 8px 16px 10px;
+        color: var(--muted);
+        text-align: center;
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+
+      @media (max-width: 860px) {
+        main {
+          padding-top: 30px;
+        }
+
+        .header {
+          padding: 0;
+        }
+
+        .plan-badge {
+          display: none;
+        }
+
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .breakdown {
+          grid-template-columns: 1fr;
+        }
+
+        .impact-row {
+          grid-template-columns: 82px 1fr;
+        }
+
+        .impact-value {
+          grid-column: 2;
+          text-align: left;
+        }
+
+        .scenario-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 520px) {
+        h1 {
+          font-size: clamp(2.1rem, 11vw, 3.2rem);
+        }
+
+        .solve-toggle {
+          grid-template-columns: 1fr;
+        }
+
+        .support-toggle {
+          grid-template-columns: 1fr;
+        }
+
+        .scenario-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <main>
+        <header class="header">
+          <h1>荒利益高計算機</h1>
+          <p class="subtitle">
+            作成高・販売高から荒利益高を計算、または荒利益高から必要な作成高を逆算できます。
+          </p>
+        </header>
+
+        <section class="layout" aria-label="荒利益高計算">
+          <form class="panel inputs" id="profitForm">
+            <div class="mode-toggle" aria-label="計算モード">
+              <button class="mode-button is-active" type="button" data-mode="ff">FF</button>
+              <button class="mode-button" type="button" data-mode="kitchen">厨房</button>
+            </div>
+
+            <div class="support-toggle" id="supportToggle" aria-label="厨房支援率">
+              <span class="support-label">対象支援</span>
+              <button class="support-button" type="button" data-support-rate="6">6%</button>
+              <button class="support-button" type="button" data-support-rate="7">7%</button>
+              <button class="support-button" type="button" data-support-rate="9">9%</button>
+            </div>
+
+            <div class="solve-toggle" aria-label="入力方向">
+              <button class="solve-button is-active" type="button" data-solve-mode="creation">
+                作成高から計算
+              </button>
+              <button class="solve-button" type="button" data-solve-mode="sales">
+                販売高から計算
+              </button>
+              <button class="solve-button" type="button" data-solve-mode="profit">
+                荒利益高から逆算
+              </button>
+            </div>
+
+            <div class="field field-days">
+              <div class="field-head">
+                <label for="targetDays">対象日数</label>
+                <span class="live-value" id="targetDaysLive">-</span>
+              </div>
+              <div class="input-wrap">
+                <input id="targetDays" type="number" min="1" inputmode="numeric" />
+                <span class="unit">日</span>
+              </div>
+            </div>
+
+            <div class="field field-profit-target">
+              <p class="goal-kicker">Profit Goal</p>
+              <div class="field-head">
+                <label for="profitTarget">荒利益高</label>
+                <span class="live-value" id="profitTargetLive">-</span>
+              </div>
+              <div class="input-wrap">
+                <input id="profitTarget" type="number" min="0" inputmode="numeric" />
+                <span class="unit">円</span>
+              </div>
+              <input
+                id="profitTargetSlider"
+                type="range"
+                min="0"
+                max="500000"
+                step="100"
+                value="0"
+                aria-label="荒利益高スライダー"
+              />
+            </div>
+
+            <div class="field field-sales">
+              <div class="field-head">
+                <label for="salesTarget" id="salesTargetLabel">作成高</label>
+                <span class="live-value" id="salesTargetLive">-</span>
+              </div>
+              <div class="input-wrap">
+                <input
+                  id="salesTarget"
+                  type="number"
+                  min="0"
+                  max="999999"
+                  data-fixed-max="999999"
+                  inputmode="numeric"
+                />
+                <span class="unit">円</span>
+              </div>
+              <input
+                id="salesTargetSlider"
+                type="range"
+                min="0"
+                max="999999"
+                data-fixed-max="999999"
+                step="100"
+                value="0"
+                aria-label="作成高スライダー"
+              />
+            </div>
+
+            <div class="field field-waste">
+              <div class="field-head">
+                <label for="wasteAmount">廃棄高</label>
+                <span class="live-value" id="wasteAmountLive">-</span>
+              </div>
+              <div class="input-wrap">
+                <input id="wasteAmount" type="number" min="0" inputmode="numeric" />
+                <span class="unit">円</span>
+              </div>
+              <input
+                id="wasteAmountSlider"
+                type="range"
+                min="0"
+                max="50000"
+                step="100"
+                value="0"
+                aria-label="廃棄高スライダー"
+              />
+              <div class="rate-control">
+                <div class="rate-head">
+                  <span>廃棄率</span>
+                  <span class="rate-value" id="wasteRateLive">-</span>
+                </div>
+                <input
+                  id="wasteRateSlider"
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="0.1"
+                  value="0"
+                  aria-label="廃棄率スライダー"
+                />
+              </div>
+            </div>
+
+            <div class="field field-discount">
+              <div class="field-head">
+                <label for="discountAmount">値引高</label>
+                <span class="live-value" id="discountAmountLive">-</span>
+              </div>
+              <div class="input-wrap">
+                <input id="discountAmount" type="number" min="0" inputmode="numeric" />
+                <span class="unit">円</span>
+              </div>
+              <input
+                id="discountAmountSlider"
+                type="range"
+                min="0"
+                max="50000"
+                step="100"
+                value="0"
+                aria-label="値引高スライダー"
+              />
+              <div class="rate-control">
+                <div class="rate-head">
+                  <span>値引率</span>
+                  <span class="rate-value" id="discountRateLive">-</span>
+                </div>
+                <input
+                  id="discountRateSlider"
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="0.1"
+                  value="0"
+                  aria-label="値引率スライダー"
+                />
+              </div>
+            </div>
+
+            <p class="hint" id="validationMessage" aria-live="polite"></p>
+          </form>
+
+          <section class="panel result-panel">
+            <div class="result">
+              <p class="result-label" id="resultLabel">荒利益高</p>
+              <p class="result-value" id="grossProfit">荒利益高：-</p>
+
+              <div class="breakdown" aria-label="計算内訳">
+                <div class="metric">
+                  <span>基本粗利益高</span>
+                  <strong id="baseProfit">-</strong>
+                </div>
+                <div class="metric">
+                  <span id="kitchenBonusLabel">厨房支援</span>
+                  <strong id="kitchenBonus">-</strong>
+                </div>
+              </div>
+
+              <div class="impact-panel" aria-label="損失インパクト">
+                <div class="impact-row">
+                  <span>廃棄影響</span>
+                  <div class="impact-track">
+                    <div class="impact-fill impact-fill-waste" id="wasteImpactBar"></div>
+                  </div>
+                  <strong class="impact-value" id="wasteImpactValue">-</strong>
+                </div>
+                <div class="impact-row">
+                  <span>値引影響</span>
+                  <div class="impact-track">
+                    <div class="impact-fill impact-fill-discount" id="discountImpactBar"></div>
+                  </div>
+                  <strong class="impact-value" id="discountImpactValue">-</strong>
+                </div>
+              </div>
+
+              <div class="target-summary">
+                <div>
+                  <span id="targetSummaryLabel">対象日数分の必要な作成高</span>
+                  <strong id="requiredSales">-</strong>
+                </div>
+                <span id="targetStatus">未入力</span>
+              </div>
+            </div>
+
+            <div class="chart-area">
+              <div class="chart-title">
+                <h2>線形予測グラフ</h2>
+                <p id="chartClickHint">クリックで作成高に反映</p>
+              </div>
+              <div class="graph-controls" aria-label="グラフ表示範囲">
+                <button class="graph-button" type="button" data-graph-range="1.5">1.5倍</button>
+                <button class="graph-button is-active" type="button" data-graph-range="2">2倍</button>
+                <button class="graph-button" type="button" data-graph-range="3">3倍</button>
+                <button class="graph-button" type="button" data-graph-range="5">5倍</button>
+              </div>
+              <div class="chart-box">
+                <canvas id="profitChart" aria-label="ケース別の荒利益高グラフ"></canvas>
+              </div>
+
+              <div class="scenario-grid" aria-label="ケース別の現在値">
+                <div class="scenario">
+                  <span>荒利益高のみ</span>
+                  <strong id="scenarioBase">-</strong>
+                </div>
+                <div class="scenario">
+                  <span>廃棄あり</span>
+                  <strong id="scenarioWaste">-</strong>
+                </div>
+                <div class="scenario">
+                  <span>値引あり</span>
+                  <strong id="scenarioDiscount">-</strong>
+                </div>
+                <div class="scenario is-active">
+                  <span>現在計画</span>
+                  <strong id="scenarioBoth">-</strong>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+      </main>
+
     </div>
-  </section>
 
-  <div class="footer">© 2026 Biswash. All rights reserved.</div>
-</body>
+    <script>
+      const salesTargetInput = document.getElementById("salesTarget");
+      const wasteAmountInput = document.getElementById("wasteAmount");
+      const discountAmountInput = document.getElementById("discountAmount");
+      const profitTargetInput = document.getElementById("profitTarget");
+      const targetDaysInput = document.getElementById("targetDays");
+      const salesTargetSlider = document.getElementById("salesTargetSlider");
+      const wasteAmountSlider = document.getElementById("wasteAmountSlider");
+      const discountAmountSlider = document.getElementById("discountAmountSlider");
+      const profitTargetSlider = document.getElementById("profitTargetSlider");
+      const wasteRateSlider = document.getElementById("wasteRateSlider");
+      const discountRateSlider = document.getElementById("discountRateSlider");
+      const salesTargetLive = document.getElementById("salesTargetLive");
+      const wasteAmountLive = document.getElementById("wasteAmountLive");
+      const discountAmountLive = document.getElementById("discountAmountLive");
+      const profitTargetLive = document.getElementById("profitTargetLive");
+      const targetDaysLive = document.getElementById("targetDaysLive");
+      const salesTargetLabel = document.getElementById("salesTargetLabel");
+      const wasteRateLive = document.getElementById("wasteRateLive");
+      const discountRateLive = document.getElementById("discountRateLive");
+      const validationMessage = document.getElementById("validationMessage");
+      const resultLabelOutput = document.getElementById("resultLabel");
+      const grossProfitOutput = document.getElementById("grossProfit");
+      const baseProfitOutput = document.getElementById("baseProfit");
+      const kitchenBonusOutput = document.getElementById("kitchenBonus");
+      const wasteImpactBar = document.getElementById("wasteImpactBar");
+      const discountImpactBar = document.getElementById("discountImpactBar");
+      const wasteImpactValue = document.getElementById("wasteImpactValue");
+      const discountImpactValue = document.getElementById("discountImpactValue");
+      const requiredSalesOutput = document.getElementById("requiredSales");
+      const targetSummaryLabel = document.getElementById("targetSummaryLabel");
+      const targetStatus = document.getElementById("targetStatus");
+      const scenarioBaseOutput = document.getElementById("scenarioBase");
+      const scenarioWasteOutput = document.getElementById("scenarioWaste");
+      const scenarioDiscountOutput = document.getElementById("scenarioDiscount");
+      const scenarioBothOutput = document.getElementById("scenarioBoth");
+      const chartCanvas = document.getElementById("profitChart");
+      const chartClickHint = document.getElementById("chartClickHint");
+      const supportToggle = document.getElementById("supportToggle");
+      const graphRangeButtons = document.querySelectorAll(".graph-button");
+      const modeButtons = document.querySelectorAll(".mode-button");
+      const solveButtons = document.querySelectorAll(".solve-button");
+      const supportButtons = document.querySelectorAll(".support-button");
+
+      const yenFormatter = new Intl.NumberFormat("ja-JP", {
+        maximumFractionDigits: 0
+      });
+
+      let profitChart;
+      let graphRangeMultiplier = 2;
+      let currentMode = "ff";
+      let solveMode = "creation";
+      let kitchenSupportRate = null;
+      const WASTE_LOSS_RATE = 0.5;
+      const DISCOUNT_LOSS_RATE = 0.7;
+
+      const valueGuidePlugin = {
+        id: "valueGuidePlugin",
+        afterDatasetsDraw(chart) {
+          const currentDataset = chart.data.datasets.find((dataset) => dataset.label === "現在値");
+          const currentPoint = currentDataset?.data?.[0];
+
+          if (!currentPoint || !Number.isFinite(currentPoint.x) || !Number.isFinite(currentPoint.y)) {
+            return;
+          }
+
+          const { ctx, chartArea, scales } = chart;
+          const pointX = clamp(scales.x.getPixelForValue(currentPoint.x), chartArea.left, chartArea.right);
+          const pointY = clamp(scales.y.getPixelForValue(currentPoint.y), chartArea.top, chartArea.bottom);
+          const originY = clamp(scales.y.getPixelForValue(0), chartArea.top, chartArea.bottom);
+          const originX = chartArea.left;
+
+          ctx.save();
+          ctx.setLineDash([6, 6]);
+          ctx.lineWidth = 2.2;
+          ctx.strokeStyle = "rgba(217, 45, 32, 0.82)";
+          ctx.beginPath();
+          ctx.moveTo(pointX, pointY);
+          ctx.lineTo(pointX, originY);
+          ctx.moveTo(originX, pointY);
+          ctx.lineTo(pointX, pointY);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          drawGuideTriangle(ctx, pointX, originY, "up");
+          drawGuideTriangle(ctx, originX, pointY, "right");
+
+          ctx.fillStyle = "#ffffff";
+          ctx.strokeStyle = "#111827";
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.arc(pointX, pointY, 5.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+
+          drawChartBadge(
+            ctx,
+            `${getPrimaryAmountLabel()} ${formatYen(currentPoint.x)}`,
+            pointX - 72,
+            Math.min(originY - 38, chartArea.bottom - 38),
+            "#d92d20",
+            chartArea
+          );
+          drawChartBadge(
+            ctx,
+            `荒利益 ${formatYen(currentPoint.y)}`,
+            chartArea.left + 8,
+            clamp(pointY - 34, chartArea.top + 8, chartArea.bottom - 38),
+            "#d92d20",
+            chartArea
+          );
+          ctx.restore();
+        }
+      };
+
+      function formatYen(value) {
+        return `${yenFormatter.format(Math.round(value))}円`;
+      }
+
+      function formatPercent(value) {
+        return `${Number(value).toFixed(1).replace(/\.0$/, "")}%`;
+      }
+
+      function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+      }
+
+      function drawGuideTriangle(ctx, x, y, direction) {
+        ctx.save();
+        ctx.fillStyle = "#d92d20";
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+
+        if (direction === "right") {
+          ctx.moveTo(x + 10, y);
+          ctx.lineTo(x - 2, y - 7);
+          ctx.lineTo(x - 2, y + 7);
+        } else {
+          ctx.moveTo(x, y - 10);
+          ctx.lineTo(x - 7, y + 2);
+          ctx.lineTo(x + 7, y + 2);
+        }
+
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function drawChartBadge(ctx, text, x, y, color, chartArea) {
+        ctx.save();
+        ctx.font = "800 12px 'Noto Sans JP', 'Yu Gothic', sans-serif";
+
+        const paddingX = 9;
+        const paddingY = 6;
+        const width = ctx.measureText(text).width + paddingX * 2;
+        const height = 26;
+        const radius = 7;
+        const badgeX = chartArea ? clamp(x, chartArea.left + 6, chartArea.right - width - 6) : x;
+        const badgeY = chartArea ? clamp(y, chartArea.top + 6, chartArea.bottom - height - 6) : y;
+
+        ctx.fillStyle = "rgba(255, 255, 255, 0.96)";
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.roundRect(badgeX, badgeY, width, height, radius);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = color;
+        ctx.fillText(text, badgeX + paddingX, badgeY + height - paddingY - 2);
+        ctx.restore();
+      }
+
+      function hasInputValue(input) {
+        return input.value.trim() !== "";
+      }
+
+      function hasActiveSourceInput() {
+        return solveMode === "profit" ? hasInputValue(profitTargetInput) : hasInputValue(salesTargetInput);
+      }
+
+      function getPrimaryAmountLabel() {
+        return solveMode === "sales" ? "販売高" : "作成高";
+      }
+
+      function readPositiveNumber(input) {
+        const value = Number(input.value);
+
+        if (Number.isNaN(value) || input.value === "") {
+          return 0;
+        }
+
+        if (value < 0) {
+          input.value = 0;
+          return 0;
+        }
+
+        return value;
+      }
+
+      function readTargetDays() {
+        const value = readPositiveNumber(targetDaysInput);
+        return value > 0 ? value : 1;
+      }
+
+      function syncNumberToSlider(numberInput, sliderInput) {
+        let value = readPositiveNumber(numberInput);
+        const fixedMax = Number(sliderInput.dataset.fixedMax || numberInput.dataset.fixedMax);
+        const currentMax = Number(sliderInput.max);
+
+        if (fixedMax && value > fixedMax) {
+          value = fixedMax;
+          numberInput.value = String(fixedMax);
+        }
+
+        if (value > currentMax) {
+          sliderInput.max = String(Math.ceil(value / 1000) * 1000);
+        }
+
+        sliderInput.value = String(value);
+      }
+
+      function clearInputPair(numberInput, sliderInput) {
+        numberInput.value = "";
+        sliderInput.value = "0";
+      }
+
+      function syncSliderToNumber(sliderInput, numberInput) {
+        numberInput.value = sliderInput.value;
+      }
+
+      function syncAmountToRate(amountInput, rateSlider) {
+        const salesTarget = readPositiveNumber(salesTargetInput);
+        const amount = readPositiveNumber(amountInput);
+        const rate = salesTarget > 0 ? Math.min((amount / salesTarget) * 100, 100) : 0;
+        rateSlider.value = String(rate);
+      }
+
+      function syncRateToAmount(rateSlider, amountInput, amountSlider) {
+        const salesTarget = readPositiveNumber(salesTargetInput);
+        const rate = Number(rateSlider.value);
+        const amount = Math.round((salesTarget * rate) / 100);
+
+        amountInput.value = String(amount);
+        syncNumberToSlider(amountInput, amountSlider);
+      }
+
+      function setSolveMode(nextMode, shouldRefresh = true) {
+        solveMode = nextMode;
+
+        const creationLocked = solveMode === "profit";
+        const profitLocked = solveMode !== "profit";
+        const isSalesMode = solveMode === "sales";
+        salesTargetInput.disabled = creationLocked;
+        salesTargetSlider.disabled = creationLocked;
+        profitTargetInput.disabled = profitLocked;
+        profitTargetSlider.disabled = profitLocked;
+        salesTargetInput.closest(".field").classList.toggle("is-locked", creationLocked);
+        profitTargetInput.closest(".field").classList.toggle("is-locked", profitLocked);
+        salesTargetLabel.textContent = isSalesMode ? "販売高" : "作成高";
+        salesTargetSlider.setAttribute("aria-label", `${isSalesMode ? "販売高" : "作成高"}スライダー`);
+        chartClickHint.textContent = `クリックで${isSalesMode ? "販売高" : "作成高"}に反映`;
+
+        solveButtons.forEach((button) => {
+          button.classList.toggle("is-active", button.dataset.solveMode === solveMode);
+        });
+
+        if (shouldRefresh) {
+          refreshCalculator();
+        }
+      }
+
+      function setKitchenSupportRate(nextRate, shouldRefresh = true) {
+        kitchenSupportRate = kitchenSupportRate === nextRate ? null : nextRate;
+
+        supportButtons.forEach((button) => {
+          button.classList.toggle("is-active", Number(button.dataset.supportRate) === kitchenSupportRate);
+        });
+
+        if (shouldRefresh) {
+          refreshCalculator();
+        }
+      }
+
+      function getDefaultKitchenSupportRate(netCreation) {
+        if (netCreation >= 30000) {
+          return 10;
+        }
+
+        if (netCreation >= 20000) {
+          return 8;
+        }
+
+        if (netCreation >= 10000) {
+          return 7;
+        }
+
+        return 0;
+      }
+
+      function getActiveKitchenSupportRate(netCreation) {
+        return kitchenSupportRate ?? getDefaultKitchenSupportRate(netCreation);
+      }
+
+      function getKitchenBonus(netCreation) {
+        if (currentMode !== "kitchen") {
+          return 0;
+        }
+
+        return netCreation * (getActiveKitchenSupportRate(netCreation) / 100);
+      }
+
+      function getKitchenBonusRate(netCreation) {
+        if (currentMode !== "kitchen" || netCreation <= 0) {
+          return 0;
+        }
+
+        return getActiveKitchenSupportRate(netCreation);
+      }
+
+      function calculateGrossProfit(creationAmount, wasteAmount, discountAmount) {
+        const netCreation = creationAmount - wasteAmount - discountAmount;
+        const baseProfit = netCreation * 0.5;
+        const wasteLoss = wasteAmount * WASTE_LOSS_RATE;
+        const discountLoss = discountAmount * DISCOUNT_LOSS_RATE;
+        const kitchenBonus = getKitchenBonus(netCreation);
+        const kitchenBonusRate = getKitchenBonusRate(netCreation);
+        const grossProfit = baseProfit - wasteLoss - discountLoss + kitchenBonus;
+
+        return {
+          netCreation,
+          baseProfit,
+          wasteLoss,
+          discountLoss,
+          kitchenBonus,
+          kitchenBonusRate,
+          grossProfit
+        };
+      }
+
+      function calculateActualProfit(salesAmount, wasteAmount, discountAmount) {
+        const baseProfit = salesAmount * 0.5;
+        const wasteLoss = wasteAmount * WASTE_LOSS_RATE;
+        const discountLoss = discountAmount * DISCOUNT_LOSS_RATE;
+        const kitchenBonus = getKitchenBonus(salesAmount);
+        const kitchenBonusRate = getKitchenBonusRate(salesAmount);
+        const grossProfit = baseProfit - wasteLoss - discountLoss + kitchenBonus;
+
+        return {
+          netCreation: salesAmount,
+          baseProfit,
+          wasteLoss,
+          discountLoss,
+          kitchenBonus,
+          kitchenBonusRate,
+          grossProfit
+        };
+      }
+
+      function calculateProfitByCurrentMode(amount, wasteAmount, discountAmount) {
+        return solveMode === "sales"
+          ? calculateActualProfit(amount, wasteAmount, discountAmount)
+          : calculateGrossProfit(amount, wasteAmount, discountAmount);
+      }
+
+      function findRequiredCreation(profitTarget, wasteAmount, discountAmount) {
+        let low = 0;
+        let high = 999999;
+
+        for (let creation = 0; creation <= 999999; creation += 100) {
+          if (calculateGrossProfit(creation, wasteAmount, discountAmount).grossProfit >= profitTarget) {
+            high = creation;
+            low = Math.max(0, creation - 100);
+            break;
+          }
+        }
+
+        for (let index = 0; index < 40; index += 1) {
+          const middle = (low + high) / 2;
+          const profit = calculateGrossProfit(middle, wasteAmount, discountAmount).grossProfit;
+
+          if (profit >= profitTarget) {
+            high = middle;
+          } else {
+            low = middle;
+          }
+        }
+
+        return high;
+      }
+
+      function calculateProfit() {
+        const salesTarget = readPositiveNumber(salesTargetInput);
+        const wasteAmount = readPositiveNumber(wasteAmountInput);
+        const discountAmount = readPositiveNumber(discountAmountInput);
+        const profitTarget = readPositiveNumber(profitTargetInput);
+        const targetDays = readTargetDays();
+        const requiredSales = Math.max(findRequiredCreation(profitTarget, wasteAmount, discountAmount), 0);
+        const activeCreation = solveMode === "profit" ? requiredSales : salesTarget;
+        const result = calculateProfitByCurrentMode(activeCreation, wasteAmount, discountAmount);
+
+        return {
+          salesTarget,
+          wasteAmount,
+          discountAmount,
+          profitTarget,
+          targetDays,
+          activeCreation,
+          grossProfit: result.grossProfit,
+          grossProfitBase: result.baseProfit,
+          wasteLoss: result.wasteLoss,
+          discountLoss: result.discountLoss,
+          kitchenBonus: result.kitchenBonus,
+          kitchenBonusRate: result.kitchenBonusRate,
+          netCreation: result.netCreation,
+          requiredSales
+        };
+      }
+
+      function updateOutputs(result) {
+        const isReverseMode = solveMode === "profit";
+        const isSalesMode = solveMode === "sales";
+        const resultName = isReverseMode ? "作成高" : isSalesMode ? "実績荒利益高" : "荒利益高";
+        const displayedResult = (isReverseMode ? result.requiredSales : result.grossProfit) * result.targetDays;
+
+        resultLabelOutput.textContent = resultName;
+        grossProfitOutput.textContent = `${resultName}：${formatYen(displayedResult)}`;
+        baseProfitOutput.textContent = formatYen(result.grossProfitBase * result.targetDays);
+        document.getElementById("kitchenBonusLabel").textContent =
+          result.kitchenBonusRate > 0 ? `厨房支援 ${result.kitchenBonusRate}%` : "厨房支援";
+        kitchenBonusOutput.textContent = formatYen(result.kitchenBonus * result.targetDays);
+
+        if (isReverseMode) {
+          salesTargetInput.value = String(Math.round(result.requiredSales));
+          syncNumberToSlider(salesTargetInput, salesTargetSlider);
+          syncAmountToRate(wasteAmountInput, wasteRateSlider);
+          syncAmountToRate(discountAmountInput, discountRateSlider);
+        } else {
+          profitTargetInput.value = String(Math.round(result.grossProfit));
+          syncNumberToSlider(profitTargetInput, profitTargetSlider);
+        }
+
+        salesTargetLive.textContent = formatYen(isReverseMode ? result.requiredSales : result.salesTarget);
+        wasteAmountLive.textContent = formatYen(result.wasteAmount);
+        discountAmountLive.textContent = formatYen(result.discountAmount);
+        profitTargetLive.textContent = formatYen(isReverseMode ? result.profitTarget : result.grossProfit);
+        targetDaysLive.textContent = hasInputValue(targetDaysInput) ? `${formatYen(result.targetDays).replace("円", "")}日` : "1日";
+        wasteRateLive.textContent = formatPercent(wasteRateSlider.value);
+        discountRateLive.textContent = formatPercent(discountRateSlider.value);
+        targetSummaryLabel.textContent = isSalesMode ? "対象日数分の販売高" : "対象日数分の必要な作成高";
+        requiredSalesOutput.textContent = isSalesMode
+          ? formatYen(result.salesTarget * result.targetDays)
+          : formatYen(result.requiredSales * result.targetDays);
+        targetStatus.textContent = isReverseMode ? "逆算結果" : isSalesMode ? "実績計算" : "自動計算";
+      }
+
+      function updateBlankOutputs() {
+        const isReverseMode = solveMode === "profit";
+        const isSalesMode = solveMode === "sales";
+        const resultName = isReverseMode ? "作成高" : isSalesMode ? "実績荒利益高" : "荒利益高";
+
+        resultLabelOutput.textContent = resultName;
+        grossProfitOutput.textContent = `${resultName}：-`;
+        baseProfitOutput.textContent = "-";
+        document.getElementById("kitchenBonusLabel").textContent = "厨房支援";
+        kitchenBonusOutput.textContent = "-";
+
+        if (isReverseMode) {
+          clearInputPair(salesTargetInput, salesTargetSlider);
+        } else {
+          clearInputPair(profitTargetInput, profitTargetSlider);
+        }
+
+        salesTargetLive.textContent = hasInputValue(salesTargetInput)
+          ? formatYen(readPositiveNumber(salesTargetInput))
+          : "-";
+        wasteAmountLive.textContent = hasInputValue(wasteAmountInput)
+          ? formatYen(readPositiveNumber(wasteAmountInput))
+          : "-";
+        discountAmountLive.textContent = hasInputValue(discountAmountInput)
+          ? formatYen(readPositiveNumber(discountAmountInput))
+          : "-";
+        profitTargetLive.textContent = hasInputValue(profitTargetInput)
+          ? formatYen(readPositiveNumber(profitTargetInput))
+          : "-";
+        targetDaysLive.textContent = hasInputValue(targetDaysInput)
+          ? `${formatYen(readTargetDays()).replace("円", "")}日`
+          : "-";
+        wasteRateLive.textContent = hasInputValue(wasteAmountInput) ? formatPercent(wasteRateSlider.value) : "-";
+        discountRateLive.textContent = hasInputValue(discountAmountInput)
+          ? formatPercent(discountRateSlider.value)
+          : "-";
+        requiredSalesOutput.textContent = "-";
+        targetSummaryLabel.textContent = isSalesMode ? "対象日数分の販売高" : "対象日数分の必要な作成高";
+        targetStatus.textContent = "未入力";
+        scenarioBaseOutput.textContent = "-";
+        scenarioWasteOutput.textContent = "-";
+        scenarioDiscountOutput.textContent = "-";
+        scenarioBothOutput.textContent = "-";
+        wasteImpactBar.style.width = "0%";
+        discountImpactBar.style.width = "0%";
+        wasteImpactValue.textContent = "-";
+        discountImpactValue.textContent = "-";
+      }
+
+      function updateScenarioOutputs(result) {
+        scenarioBaseOutput.textContent = formatYen(result.grossProfitBase * result.targetDays);
+        scenarioWasteOutput.textContent = formatYen((result.grossProfitBase - result.wasteLoss) * result.targetDays);
+        scenarioDiscountOutput.textContent = formatYen(
+          (result.grossProfitBase - result.discountLoss) * result.targetDays
+        );
+        scenarioBothOutput.textContent = formatYen(result.grossProfit * result.targetDays);
+      }
+
+      function updateImpactBars(result) {
+        const baseProfit = Math.max(result.grossProfitBase, 1);
+        const wastePercent = Math.min((result.wasteLoss / baseProfit) * 100, 100);
+        const discountPercent = Math.min((result.discountLoss / baseProfit) * 100, 100);
+
+        wasteImpactBar.style.width = `${wastePercent}%`;
+        discountImpactBar.style.width = `${discountPercent}%`;
+        wasteImpactValue.textContent = `${Math.round(wastePercent)}%`;
+        discountImpactValue.textContent = `${Math.round(discountPercent)}%`;
+      }
+
+      function updateValidationMessage() {
+        const hasNegativeValue = [
+          salesTargetInput,
+          wasteAmountInput,
+          discountAmountInput,
+          profitTargetInput,
+          targetDaysInput
+        ].some((input) => Number(input.value) < 0);
+
+        validationMessage.textContent = hasNegativeValue
+          ? "マイナスの金額は入力できません。0円として計算します。"
+          : "";
+      }
+
+      function createProjectionData(result) {
+        const baseCreation = Math.max(result.activeCreation, result.salesTarget, 1);
+        const wasteRate = baseCreation > 0 ? result.wasteAmount / baseCreation : 0;
+        const discountRate = baseCreation > 0 ? result.discountAmount / baseCreation : 0;
+        const hasWaste = result.wasteAmount > 0;
+        const hasDiscount = result.discountAmount > 0;
+        const maxSalesTarget = Math.max(
+          result.activeCreation * graphRangeMultiplier,
+          result.requiredSales * 1.2,
+          100
+        );
+        const step = maxSalesTarget / 10;
+        const salesPoints = Array.from({ length: 11 }, (_, index) => Math.round(step * index));
+
+        return {
+          base: salesPoints.map((sales) => {
+            const projectedWaste = sales * wasteRate;
+            const projectedDiscount = sales * discountRate;
+
+            return {
+              x: sales,
+              y: Math.round(calculateProfitByCurrentMode(sales, projectedWaste, projectedDiscount).grossProfit)
+            };
+          }),
+          wasteOnly: salesPoints.map((sales) => ({
+            x: sales,
+            y: Math.round(calculateProfitByCurrentMode(sales, sales * wasteRate, 0).grossProfit)
+          })),
+          discountOnly: salesPoints.map((sales) => ({
+            x: sales,
+            y: Math.round(calculateProfitByCurrentMode(sales, 0, sales * discountRate).grossProfit)
+          })),
+          both: salesPoints.map((sales) => ({
+            x: sales,
+            y: Math.round(calculateProfitByCurrentMode(sales, sales * wasteRate, sales * discountRate).grossProfit)
+          })),
+          currentPoint: [
+            {
+              x: Math.round(result.activeCreation),
+              y: Math.round(result.grossProfit)
+            }
+          ],
+          targetPoint: [
+            {
+              x: Math.round(result.requiredSales),
+              y: Math.round(result.profitTarget)
+            }
+          ],
+          noDiscountPattern: hasDiscount
+            ? salesPoints.map((sales) => ({
+                x: sales,
+                y: Math.round(calculateProfitByCurrentMode(sales, sales * wasteRate, 0).grossProfit)
+              }))
+            : [],
+          noWastePattern: hasWaste
+            ? salesPoints.map((sales) => ({
+                x: sales,
+                y: Math.round(calculateProfitByCurrentMode(sales, 0, sales * discountRate).grossProfit)
+              }))
+            : []
+        };
+      }
+
+      function createChart(result) {
+        const projection = createProjectionData(result);
+
+        profitChart = new Chart(chartCanvas, {
+          type: "line",
+          data: {
+            datasets: [
+              {
+                label: "実績ライン",
+                data: projection.base,
+                borderColor: "#2176ff",
+                backgroundColor: "rgba(33, 118, 255, 0.12)",
+                borderWidth: 2,
+                pointRadius: 2.5,
+                pointHoverRadius: 5,
+                fill: false,
+                tension: 0
+              },
+              {
+                label: "値引きなしの場合",
+                data: projection.noDiscountPattern,
+                borderColor: "rgba(125, 76, 194, 0.42)",
+                backgroundColor: "rgba(125, 76, 194, 0.08)",
+                borderWidth: 1.5,
+                borderDash: [4, 5],
+                pointRadius: 0,
+                pointHoverRadius: 4,
+                fill: false,
+                tension: 0
+              },
+              {
+                label: "廃棄なしの場合",
+                data: projection.noWastePattern,
+                borderColor: "rgba(217, 45, 32, 0.38)",
+                backgroundColor: "rgba(217, 45, 32, 0.08)",
+                borderWidth: 1.5,
+                borderDash: [4, 5],
+                pointRadius: 0,
+                pointHoverRadius: 4,
+                fill: false,
+                tension: 0
+              },
+              {
+                label: "現在値",
+                data: projection.currentPoint,
+                type: "scatter",
+                borderColor: "#111827",
+                backgroundColor: "#111827",
+                pointRadius: 7,
+                pointHoverRadius: 9
+              },
+              {
+                label: "荒利益目標",
+                data: projection.targetPoint,
+                type: "scatter",
+                borderColor: "#f59e0b",
+                backgroundColor: "#f59e0b",
+                pointRadius: 7,
+                pointHoverRadius: 9
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+              duration: 220
+            },
+            plugins: {
+              legend: {
+                display: true,
+                labels: {
+                  boxWidth: 12,
+                  boxHeight: 12,
+                  usePointStyle: true,
+                  filter: (legendItem, data) => {
+                    const dataset = data.datasets[legendItem.datasetIndex];
+                    return Array.isArray(dataset.data) && dataset.data.length > 0;
+                  }
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: (context) =>
+                    `${context.dataset.label}：${getPrimaryAmountLabel()} ${formatYen(context.parsed.x)} / 荒利益 ${formatYen(
+                      context.parsed.y
+                    )}`
+                }
+              }
+            },
+            scales: {
+              x: {
+                type: "linear",
+                min: 0,
+                title: {
+                  display: true,
+                  text: getPrimaryAmountLabel()
+                },
+                ticks: {
+                  callback: (value) => `${yenFormatter.format(value)}円`
+                },
+                grid: {
+                  color: "rgba(101, 115, 134, 0.12)"
+                }
+              },
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: "荒利益高（円）"
+                },
+                ticks: {
+                  callback: (value) => `${yenFormatter.format(value)}円`
+                },
+                grid: {
+                  color: "rgba(101, 115, 134, 0.14)"
+                }
+              }
+            }
+          },
+          plugins: [valueGuidePlugin]
+        });
+      }
+
+      function refreshCalculator() {
+        updateValidationMessage();
+        const result = calculateProfit();
+
+        if (!hasActiveSourceInput()) {
+          updateBlankOutputs();
+
+          if (profitChart) {
+            profitChart.data.datasets[0].data = [
+              { x: 0, y: 0 },
+              { x: 100, y: 0 }
+            ];
+            profitChart.data.datasets[1].data = [];
+            profitChart.data.datasets[2].data = [];
+            profitChart.data.datasets[3].data = [];
+            profitChart.data.datasets[4].data = [];
+            profitChart.options.scales.x.title.text = getPrimaryAmountLabel();
+            profitChart.update();
+          }
+
+          return;
+        }
+
+        updateOutputs(result);
+        updateScenarioOutputs(result);
+        updateImpactBars(result);
+
+        if (profitChart) {
+          const projection = createProjectionData(result);
+          profitChart.data.datasets[0].data = projection.base;
+          profitChart.data.datasets[1].data = projection.noDiscountPattern;
+          profitChart.data.datasets[2].data = projection.noWastePattern;
+          profitChart.data.datasets[3].data = projection.currentPoint;
+          profitChart.data.datasets[4].data = projection.targetPoint;
+          profitChart.options.scales.x.title.text = getPrimaryAmountLabel();
+          profitChart.update();
+        }
+      }
+
+      function setInputPair(numberInput, sliderInput, value) {
+        numberInput.value = String(value);
+        syncNumberToSlider(numberInput, sliderInput);
+      }
+
+      [
+        [salesTargetInput, salesTargetSlider],
+        [wasteAmountInput, wasteAmountSlider],
+        [discountAmountInput, discountAmountSlider],
+        [profitTargetInput, profitTargetSlider]
+      ].forEach(([numberInput, sliderInput]) => {
+        numberInput.addEventListener("input", () => {
+          if (numberInput === salesTargetInput && solveMode !== "sales") {
+            setSolveMode("creation", false);
+          }
+          if (numberInput === profitTargetInput) {
+            setSolveMode("profit", false);
+          }
+          syncNumberToSlider(numberInput, sliderInput);
+          if (numberInput === salesTargetInput || numberInput === wasteAmountInput) {
+            syncAmountToRate(wasteAmountInput, wasteRateSlider);
+          }
+          if (numberInput === salesTargetInput || numberInput === discountAmountInput) {
+            syncAmountToRate(discountAmountInput, discountRateSlider);
+          }
+          refreshCalculator();
+        });
+
+        sliderInput.addEventListener("input", () => {
+          if (numberInput === salesTargetInput && solveMode !== "sales") {
+            setSolveMode("creation", false);
+          }
+          if (numberInput === profitTargetInput) {
+            setSolveMode("profit", false);
+          }
+          syncSliderToNumber(sliderInput, numberInput);
+          if (numberInput === salesTargetInput || numberInput === wasteAmountInput) {
+            syncAmountToRate(wasteAmountInput, wasteRateSlider);
+          }
+          if (numberInput === salesTargetInput || numberInput === discountAmountInput) {
+            syncAmountToRate(discountAmountInput, discountRateSlider);
+          }
+          refreshCalculator();
+        });
+      });
+
+      targetDaysInput.addEventListener("input", refreshCalculator);
+
+      wasteRateSlider.addEventListener("input", () => {
+        syncRateToAmount(wasteRateSlider, wasteAmountInput, wasteAmountSlider);
+        refreshCalculator();
+      });
+
+      discountRateSlider.addEventListener("input", () => {
+        syncRateToAmount(discountRateSlider, discountAmountInput, discountAmountSlider);
+        refreshCalculator();
+      });
+
+      graphRangeButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          graphRangeMultiplier = Number(button.dataset.graphRange);
+          graphRangeButtons.forEach((item) => item.classList.remove("is-active"));
+          button.classList.add("is-active");
+          refreshCalculator();
+        });
+      });
+
+      modeButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          currentMode = button.dataset.mode;
+          modeButtons.forEach((item) => item.classList.remove("is-active"));
+          button.classList.add("is-active");
+          supportToggle.classList.toggle("is-visible", currentMode === "kitchen");
+          refreshCalculator();
+        });
+      });
+
+      supportButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          setKitchenSupportRate(Number(button.dataset.supportRate));
+        });
+      });
+
+      solveButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          setSolveMode(button.dataset.solveMode);
+        });
+      });
+
+      chartCanvas.addEventListener("click", (event) => {
+        if (!profitChart) {
+          return;
+        }
+
+        const salesValue = profitChart.scales.x.getValueForPixel(event.offsetX);
+        const roundedSales = Math.max(0, Math.round(salesValue / 100) * 100);
+        if (solveMode === "profit") {
+          setSolveMode("creation", false);
+        }
+        setInputPair(salesTargetInput, salesTargetSlider, roundedSales);
+        syncAmountToRate(wasteAmountInput, wasteRateSlider);
+        syncAmountToRate(discountAmountInput, discountRateSlider);
+        refreshCalculator();
+      });
+
+      syncAmountToRate(wasteAmountInput, wasteRateSlider);
+      syncAmountToRate(discountAmountInput, discountRateSlider);
+      setSolveMode("creation", false);
+      const initialResult = calculateProfit();
+      createChart(initialResult);
+      refreshCalculator();
+    </script>
+  </body>
 </html>
