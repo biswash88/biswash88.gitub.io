@@ -440,6 +440,10 @@
         background: rgba(255, 255, 255, 0.68);
       }
 
+      .metric.is-hidden {
+        display: none;
+      }
+
       .metric span {
         display: block;
         color: var(--muted);
@@ -849,15 +853,15 @@
 
           <section class="panel result-panel">
             <div class="result">
-              <p class="result-label" id="resultLabel">荒利益高</p>
-              <p class="result-value" id="grossProfit">荒利益高：-</p>
+              <p class="result-label" id="resultLabel">PL</p>
+              <p class="result-value" id="grossProfit">PL：-</p>
 
               <div class="breakdown" aria-label="計算内訳">
                 <div class="metric">
-                  <span>基本粗利益高</span>
+                  <span>基本荒利益高</span>
                   <strong id="baseProfit">-</strong>
                 </div>
-                <div class="metric">
+                <div class="metric" id="kitchenBonusMetric">
                   <span id="kitchenBonusLabel">厨房支援</span>
                   <strong id="kitchenBonus">-</strong>
                 </div>
@@ -953,6 +957,7 @@
       const resultLabelOutput = document.getElementById("resultLabel");
       const grossProfitOutput = document.getElementById("grossProfit");
       const baseProfitOutput = document.getElementById("baseProfit");
+      const kitchenBonusMetric = document.getElementById("kitchenBonusMetric");
       const kitchenBonusOutput = document.getElementById("kitchenBonus");
       const wasteImpactBar = document.getElementById("wasteImpactBar");
       const discountImpactBar = document.getElementById("discountImpactBar");
@@ -983,7 +988,8 @@
       let solveMode = "creation";
       let kitchenSupportRate = null;
       const WASTE_LOSS_RATE = 0.5;
-      const DISCOUNT_LOSS_RATE = 0.7;
+      const DISCOUNT_LOSS_RATE = 0.5;
+      const PL_BASE_RATE = 0.5;
 
       const valueGuidePlugin = {
         id: "valueGuidePlugin",
@@ -1081,13 +1087,13 @@
 
       function drawChartBadge(ctx, text, x, y, color, chartArea) {
         ctx.save();
-        ctx.font = "800 12px 'Noto Sans JP', 'Yu Gothic', sans-serif";
+        ctx.font = "800 9px 'Noto Sans JP', 'Yu Gothic', sans-serif";
 
-        const paddingX = 9;
-        const paddingY = 6;
+        const paddingX = 6;
+        const paddingY = 4;
         const width = ctx.measureText(text).width + paddingX * 2;
-        const height = 26;
-        const radius = 7;
+        const height = 20;
+        const radius = 6;
         const badgeX = chartArea ? clamp(x, chartArea.left + 6, chartArea.right - width - 6) : x;
         const badgeY = chartArea ? clamp(y, chartArea.top + 6, chartArea.bottom - height - 6) : y;
 
@@ -1114,6 +1120,11 @@
 
       function getPrimaryAmountLabel() {
         return solveMode === "sales" ? "販売高" : "作成高";
+      }
+
+      function updateKitchenSupportVisibility() {
+        const isKitchenMode = currentMode === "kitchen";
+        kitchenBonusMetric.classList.toggle("is-hidden", !isKitchenMode);
       }
 
       function readPositiveNumber(input) {
@@ -1258,7 +1269,7 @@
         const discountLoss = discountAmount * DISCOUNT_LOSS_RATE;
         const kitchenBonus = getKitchenBonus(netCreation);
         const kitchenBonusRate = getKitchenBonusRate(netCreation);
-        const grossProfit = baseProfit - wasteLoss - discountLoss + kitchenBonus;
+        const grossProfit = baseProfit - wasteLoss - discountLoss;
 
         return {
           netCreation,
@@ -1277,7 +1288,7 @@
         const discountLoss = discountAmount * DISCOUNT_LOSS_RATE;
         const kitchenBonus = getKitchenBonus(salesAmount);
         const kitchenBonusRate = getKitchenBonusRate(salesAmount);
-        const grossProfit = baseProfit - wasteLoss - discountLoss + kitchenBonus;
+        const grossProfit = baseProfit - wasteLoss - discountLoss;
 
         return {
           netCreation: salesAmount,
@@ -1294,6 +1305,10 @@
         return solveMode === "sales"
           ? calculateActualProfit(amount, wasteAmount, discountAmount)
           : calculateGrossProfit(amount, wasteAmount, discountAmount);
+      }
+
+      function calculatePL(baseGrossProfit, kitchenBonus) {
+        return baseGrossProfit * PL_BASE_RATE + kitchenBonus;
       }
 
       function findRequiredCreation(profitTarget, wasteAmount, discountAmount) {
@@ -1340,7 +1355,9 @@
           targetDays,
           activeCreation,
           grossProfit: result.grossProfit,
-          grossProfitBase: result.baseProfit,
+          pl: calculatePL(result.grossProfit, result.kitchenBonus),
+          grossProfitBase: result.grossProfit,
+          grossProfitBeforeLoss: result.baseProfit,
           wasteLoss: result.wasteLoss,
           discountLoss: result.discountLoss,
           kitchenBonus: result.kitchenBonus,
@@ -1353,15 +1370,22 @@
       function updateOutputs(result) {
         const isReverseMode = solveMode === "profit";
         const isSalesMode = solveMode === "sales";
-        const resultName = isReverseMode ? "作成高" : isSalesMode ? "実績荒利益高" : "荒利益高";
-        const displayedResult = (isReverseMode ? result.requiredSales : result.grossProfit) * result.targetDays;
+        const resultName = isReverseMode ? "作成高" : "PL";
+        const displayedResult = (isReverseMode ? result.requiredSales : result.pl) * result.targetDays;
 
         resultLabelOutput.textContent = resultName;
         grossProfitOutput.textContent = `${resultName}：${formatYen(displayedResult)}`;
         baseProfitOutput.textContent = formatYen(result.grossProfitBase * result.targetDays);
-        document.getElementById("kitchenBonusLabel").textContent =
-          result.kitchenBonusRate > 0 ? `厨房支援 ${result.kitchenBonusRate}%` : "厨房支援";
-        kitchenBonusOutput.textContent = formatYen(result.kitchenBonus * result.targetDays);
+        updateKitchenSupportVisibility();
+
+        if (currentMode === "kitchen") {
+          document.getElementById("kitchenBonusLabel").textContent =
+            result.kitchenBonusRate > 0 ? `厨房支援 ${result.kitchenBonusRate}%` : "厨房支援";
+          kitchenBonusOutput.textContent = formatYen(result.kitchenBonus * result.targetDays);
+        } else {
+          document.getElementById("kitchenBonusLabel").textContent = "";
+          kitchenBonusOutput.textContent = "";
+        }
 
         if (isReverseMode) {
           salesTargetInput.value = String(Math.round(result.requiredSales));
@@ -1390,13 +1414,20 @@
       function updateBlankOutputs() {
         const isReverseMode = solveMode === "profit";
         const isSalesMode = solveMode === "sales";
-        const resultName = isReverseMode ? "作成高" : isSalesMode ? "実績荒利益高" : "荒利益高";
+        const resultName = isReverseMode ? "作成高" : "PL";
 
         resultLabelOutput.textContent = resultName;
         grossProfitOutput.textContent = `${resultName}：-`;
         baseProfitOutput.textContent = "-";
-        document.getElementById("kitchenBonusLabel").textContent = "厨房支援";
-        kitchenBonusOutput.textContent = "-";
+        updateKitchenSupportVisibility();
+
+        if (currentMode === "kitchen") {
+          document.getElementById("kitchenBonusLabel").textContent = "厨房支援";
+          kitchenBonusOutput.textContent = "-";
+        } else {
+          document.getElementById("kitchenBonusLabel").textContent = "";
+          kitchenBonusOutput.textContent = "";
+        }
 
         if (isReverseMode) {
           clearInputPair(salesTargetInput, salesTargetSlider);
@@ -1438,15 +1469,15 @@
 
       function updateScenarioOutputs(result) {
         scenarioBaseOutput.textContent = formatYen(result.grossProfitBase * result.targetDays);
-        scenarioWasteOutput.textContent = formatYen((result.grossProfitBase - result.wasteLoss) * result.targetDays);
+        scenarioWasteOutput.textContent = formatYen((result.grossProfitBeforeLoss - result.wasteLoss) * result.targetDays);
         scenarioDiscountOutput.textContent = formatYen(
-          (result.grossProfitBase - result.discountLoss) * result.targetDays
+          (result.grossProfitBeforeLoss - result.discountLoss) * result.targetDays
         );
         scenarioBothOutput.textContent = formatYen(result.grossProfit * result.targetDays);
       }
 
       function updateImpactBars(result) {
-        const baseProfit = Math.max(result.grossProfitBase, 1);
+        const baseProfit = Math.max(result.grossProfitBeforeLoss, 1);
         const wastePercent = Math.min((result.wasteLoss / baseProfit) * 100, 100);
         const discountPercent = Math.min((result.discountLoss / baseProfit) * 100, 100);
 
@@ -1541,22 +1572,22 @@
           data: {
             datasets: [
               {
-                label: "実績ライン",
+                label: "荒利益高ライン",
                 data: projection.base,
                 borderColor: "#2176ff",
                 backgroundColor: "rgba(33, 118, 255, 0.12)",
-                borderWidth: 2,
-                pointRadius: 2.5,
-                pointHoverRadius: 5,
+                borderWidth: 1.5,
+                pointRadius: 2,
+                pointHoverRadius: 4,
                 fill: false,
                 tension: 0
               },
               {
                 label: "値引きなしの場合",
                 data: projection.noDiscountPattern,
-                borderColor: "rgba(125, 76, 194, 0.42)",
+                borderColor: "rgba(125, 76, 194, 0.34)",
                 backgroundColor: "rgba(125, 76, 194, 0.08)",
-                borderWidth: 1.5,
+                borderWidth: 1,
                 borderDash: [4, 5],
                 pointRadius: 0,
                 pointHoverRadius: 4,
@@ -1566,9 +1597,9 @@
               {
                 label: "廃棄なしの場合",
                 data: projection.noWastePattern,
-                borderColor: "rgba(217, 45, 32, 0.38)",
+                borderColor: "rgba(217, 45, 32, 0.32)",
                 backgroundColor: "rgba(217, 45, 32, 0.08)",
-                borderWidth: 1.5,
+                borderWidth: 1,
                 borderDash: [4, 5],
                 pointRadius: 0,
                 pointHoverRadius: 4,
@@ -1581,8 +1612,8 @@
                 type: "scatter",
                 borderColor: "#111827",
                 backgroundColor: "#111827",
-                pointRadius: 7,
-                pointHoverRadius: 9
+                pointRadius: 5,
+                pointHoverRadius: 7
               },
               {
                 label: "荒利益目標",
@@ -1590,8 +1621,8 @@
                 type: "scatter",
                 borderColor: "#f59e0b",
                 backgroundColor: "#f59e0b",
-                pointRadius: 7,
-                pointHoverRadius: 9
+                pointRadius: 5,
+                pointHoverRadius: 7
               }
             ]
           },
@@ -1608,6 +1639,9 @@
                   boxWidth: 12,
                   boxHeight: 12,
                   usePointStyle: true,
+                  font: {
+                    size: 10
+                  },
                   filter: (legendItem, data) => {
                     const dataset = data.datasets[legendItem.datasetIndex];
                     return Array.isArray(dataset.data) && dataset.data.length > 0;
@@ -1632,6 +1666,9 @@
                   text: getPrimaryAmountLabel()
                 },
                 ticks: {
+                  font: {
+                    size: 10
+                  },
                   callback: (value) => `${yenFormatter.format(value)}円`
                 },
                 grid: {
@@ -1645,6 +1682,9 @@
                   text: "荒利益高（円）"
                 },
                 ticks: {
+                  font: {
+                    size: 10
+                  },
                   callback: (value) => `${yenFormatter.format(value)}円`
                 },
                 grid: {
@@ -1769,6 +1809,7 @@
           modeButtons.forEach((item) => item.classList.remove("is-active"));
           button.classList.add("is-active");
           supportToggle.classList.toggle("is-visible", currentMode === "kitchen");
+          updateKitchenSupportVisibility();
           refreshCalculator();
         });
       });
