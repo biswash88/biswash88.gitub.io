@@ -11,18 +11,18 @@
     <style>
       :root {
         color-scheme: light;
-        --bg: #edf5ff;
+        --bg: #e7f0fb;
         --panel: #ffffff;
-        --text: #1c2534;
-        --muted: #657386;
-        --line: #dce3ee;
+        --text: #111827;
+        --muted: #475569;
+        --line: #c6d1df;
         --primary: #2176ff;
         --primary-dark: #1558c8;
         --danger: #d92d20;
         --purple: #7d4cc2;
         --success: #12805c;
         --warning: #b35a00;
-        --shadow: 0 18px 50px rgba(24, 38, 62, 0.12);
+        --shadow: 0 18px 50px rgba(24, 38, 62, 0.18);
       }
 
       * {
@@ -33,7 +33,7 @@
         margin: 0;
         min-height: 100vh;
         background:
-          linear-gradient(135deg, rgba(33, 118, 255, 0.1), transparent 34%),
+          linear-gradient(135deg, rgba(33, 118, 255, 0.16), transparent 34%),
           var(--bg);
         color: var(--text);
         font-family:
@@ -92,8 +92,8 @@
 
       .layout {
         display: grid;
-        grid-template-columns: 390px 1fr;
-        gap: 18px;
+        grid-template-columns: 320px 1fr;
+        gap: 14px;
         align-items: start;
       }
 
@@ -136,9 +136,9 @@
         align-items: center;
         margin-bottom: 12px;
         padding: 8px;
-        border: 1px solid rgba(18, 128, 92, 0.18);
+        border: 1px solid rgba(18, 128, 92, 0.36);
         border-radius: 8px;
-        background: rgba(18, 128, 92, 0.05);
+        background: rgba(18, 128, 92, 0.12);
       }
 
       .support-toggle.is-visible {
@@ -157,7 +157,7 @@
         min-height: 38px;
         border: 1px solid var(--line);
         border-radius: 8px;
-        background: #fbfcff;
+        background: #f7faff;
         color: var(--text);
         font: inherit;
         font-size: 0.78rem;
@@ -185,9 +185,33 @@
       .mode-button.is-active,
       .solve-button.is-active,
       .support-button.is-active {
-        border-color: var(--success);
-        background: rgba(18, 128, 92, 0.1);
-        color: var(--success);
+        border-color: #111827;
+        background: #111827;
+        color: #ffffff;
+        box-shadow: 0 10px 24px rgba(17, 24, 39, 0.18);
+      }
+
+      .reset-button {
+        width: 100%;
+        min-height: 36px;
+        margin: 0 0 12px;
+        border: 1px solid #b8c3d2;
+        border-radius: 8px;
+        background: #ffffff;
+        color: #111827;
+        font: inherit;
+        font-size: 0.82rem;
+        font-weight: 900;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(24, 38, 62, 0.08);
+      }
+
+      .reset-button:hover,
+      .reset-button:focus-visible {
+        border-color: #111827;
+        background: #111827;
+        color: #ffffff;
+        outline: none;
       }
 
       .field {
@@ -203,10 +227,10 @@
         margin-bottom: 12px;
         padding: 12px;
         overflow: hidden;
-        border: 1px solid rgba(18, 128, 92, 0.28);
+        border: 1px solid rgba(18, 128, 92, 0.46);
         border-radius: 8px;
         background:
-          linear-gradient(135deg, rgba(18, 128, 92, 0.13), rgba(33, 118, 255, 0.08)),
+          linear-gradient(135deg, rgba(18, 128, 92, 0.22), rgba(33, 118, 255, 0.14)),
           #ffffff;
       }
 
@@ -242,7 +266,7 @@
         max-width: 52%;
         padding: 4px 8px;
         border-radius: 8px;
-        background: rgba(33, 118, 255, 0.1);
+        background: rgba(33, 118, 255, 0.18);
         color: var(--primary-dark);
         font-size: 0.78rem;
         font-weight: 900;
@@ -259,7 +283,7 @@
 
       .field-profit-target .live-value {
         background: #ffffff;
-        box-shadow: 0 8px 20px rgba(18, 128, 92, 0.12);
+        box-shadow: 0 8px 20px rgba(18, 128, 92, 0.2);
       }
 
       .field-waste label,
@@ -269,7 +293,7 @@
       }
 
       .field-waste .live-value {
-        background: rgba(217, 45, 32, 0.1);
+        background: rgba(217, 45, 32, 0.18);
       }
 
       .field-discount label,
@@ -279,7 +303,7 @@
       }
 
       .field-discount .live-value {
-        background: rgba(125, 76, 194, 0.11);
+        background: rgba(125, 76, 194, 0.2);
       }
 
       .field-days label,
@@ -299,7 +323,7 @@
         border: 1px solid var(--line);
         border-radius: 8px;
         color: var(--text);
-        background: #fbfcff;
+        background: #f8fbff;
         font-size: 1rem;
         font-weight: 700;
         outline: none;
@@ -316,13 +340,13 @@
       }
 
       input:disabled {
-        opacity: 0.62;
+        opacity: 0.86;
         cursor: not-allowed;
-        background: #eef3f8;
+        background: #eef4fb;
       }
 
       .field.is-locked {
-        opacity: 0.76;
+        opacity: 0.9;
       }
 
       input[type="range"] {
@@ -363,7 +387,7 @@
       .rate-control {
         margin-top: 6px;
         padding: 8px;
-        border: 1px solid rgba(101, 115, 134, 0.16);
+        border: 1px solid rgba(71, 85, 105, 0.28);
         border-radius: 8px;
         background: #ffffff;
       }
@@ -385,19 +409,19 @@
       .rate-value {
         padding: 4px 8px;
         border-radius: 8px;
-        background: rgba(101, 115, 134, 0.12);
+        background: rgba(71, 85, 105, 0.18);
         color: var(--text);
         font-size: 0.82rem;
         font-weight: 900;
       }
 
       .field-waste .rate-value {
-        background: rgba(217, 45, 32, 0.1);
+        background: rgba(217, 45, 32, 0.18);
         color: var(--danger);
       }
 
       .field-discount .rate-value {
-        background: rgba(125, 76, 194, 0.11);
+        background: rgba(125, 76, 194, 0.2);
         color: var(--purple);
       }
 
@@ -415,13 +439,13 @@
       .result {
         padding: 18px;
         border-bottom: 1px solid var(--line);
-        background: linear-gradient(135deg, rgba(18, 128, 92, 0.1), rgba(33, 118, 255, 0.09));
+        background: linear-gradient(135deg, rgba(18, 128, 92, 0.2), rgba(33, 118, 255, 0.16));
       }
 
       .result-label {
         margin: 0 0 4px;
         color: var(--muted);
-        font-weight: 800;
+        font-weight: 900;
       }
 
       .result-value {
@@ -433,6 +457,12 @@
         overflow-wrap: anywhere;
       }
 
+      .result-value .yen-unit {
+        font-size: 0.5em;
+        line-height: 1;
+        vertical-align: baseline;
+      }
+
       .breakdown {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -440,11 +470,15 @@
         margin-top: 12px;
       }
 
+      .breakdown.is-hidden {
+        display: none;
+      }
+
       .metric {
         padding: 9px;
-        border: 1px solid rgba(101, 115, 134, 0.18);
+        border: 1px solid rgba(71, 85, 105, 0.3);
         border-radius: 8px;
-        background: rgba(255, 255, 255, 0.68);
+        background: rgba(255, 255, 255, 0.94);
       }
 
       .metric.is-hidden {
@@ -485,7 +519,7 @@
         height: 9px;
         overflow: hidden;
         border-radius: 999px;
-        background: rgba(101, 115, 134, 0.16);
+        background: rgba(71, 85, 105, 0.26);
       }
 
       .impact-fill {
@@ -516,9 +550,9 @@
         align-items: center;
         margin-top: 12px;
         padding: 12px;
-        border: 1px solid rgba(18, 128, 92, 0.2);
+        border: 1px solid rgba(18, 128, 92, 0.4);
         border-radius: 8px;
-        background: rgba(18, 128, 92, 0.08);
+        background: rgba(18, 128, 92, 0.16);
       }
 
       .target-summary span {
@@ -560,6 +594,60 @@
         font-size: 0.8rem;
       }
 
+      .chart-expand-button {
+        width: 32px;
+        height: 32px;
+        display: inline-grid;
+        place-items: center;
+        border: 1px solid #b8c3d2;
+        border-radius: 10px;
+        background: #ffffff;
+        color: #111827;
+        font-size: 1rem;
+        font-weight: 950;
+        line-height: 1;
+        cursor: pointer;
+        box-shadow: 0 8px 18px rgba(24, 38, 62, 0.1);
+      }
+
+      .chart-expand-button:hover,
+      .chart-expand-button:focus-visible {
+        border-color: #111827;
+        background: #111827;
+        color: #ffffff;
+        outline: none;
+      }
+
+      body.graph-expanded {
+        overflow: hidden;
+      }
+
+      .chart-area.is-expanded {
+        position: fixed;
+        inset: 10px;
+        z-index: 50;
+        height: calc(100svh - 20px);
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 14px;
+        border: 1px solid #b8c3d2;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 24px 70px rgba(17, 24, 39, 0.28);
+      }
+
+      .chart-area.is-expanded .chart-box {
+        flex: 1;
+        height: auto;
+        min-height: 0;
+      }
+
+      .chart-area.is-expanded .chart-expand-button {
+        background: #111827;
+        color: #ffffff;
+      }
+
       .graph-controls {
         display: flex;
         flex-wrap: wrap;
@@ -572,7 +660,7 @@
         padding: 0 10px;
         border: 1px solid var(--line);
         border-radius: 8px;
-        background: #fbfcff;
+        background: #f8fbff;
         color: var(--text);
         font: inherit;
         font-size: 0.78rem;
@@ -583,15 +671,19 @@
       .graph-button.is-active,
       .graph-button:hover,
       .graph-button:focus-visible {
-        border-color: var(--primary);
-        background: rgba(33, 118, 255, 0.1);
-        color: var(--primary-dark);
+        border-color: #111827;
+        background: #111827;
+        color: #ffffff;
         outline: none;
       }
 
       .chart-box {
         position: relative;
-        height: 315px;
+        height: 480px;
+      }
+
+      .chart-legend {
+        display: none;
       }
 
       .scenario-grid {
@@ -671,20 +763,502 @@
       }
 
       @media (max-width: 520px) {
+        body {
+          overflow-x: hidden;
+          background:
+            linear-gradient(135deg, rgba(33, 118, 255, 0.16), transparent 34%),
+            var(--bg);
+          color: var(--text);
+        }
+
+        main {
+          width: calc(100% - 10px);
+          height: 100svh;
+          padding: 7px 0;
+          overflow: hidden;
+        }
+
+        .header {
+          margin-bottom: 6px;
+        }
+
         h1 {
-          font-size: clamp(2.1rem, 11vw, 3.2rem);
+          font-size: clamp(1.35rem, 7vw, 1.85rem);
+          white-space: normal;
+        }
+
+        .subtitle {
+          display: none;
+        }
+
+        .layout {
+          grid-template-columns: minmax(0, 0.36fr) minmax(0, 0.64fr);
+          gap: 6px;
+          align-items: stretch;
+          height: calc(100svh - 44px);
+          overflow: hidden;
+        }
+
+        .panel {
+          background: var(--panel);
+          border-color: #b8c5d6;
+          border-radius: 20px;
+          box-shadow:
+            0 18px 42px rgba(24, 38, 62, 0.22),
+            0 1px 0 rgba(255, 255, 255, 0.9) inset;
+        }
+
+        .result-panel {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .inputs {
+          height: 100%;
+          padding: 8px;
+          background: #f8fafc;
+          overflow-y: auto;
+          overscroll-behavior: contain;
+          scrollbar-width: thin;
+        }
+
+        .mode-toggle,
+        .solve-toggle {
+          gap: 5px;
+          margin-bottom: 7px;
+        }
+
+        .mode-button,
+        .solve-button,
+        .support-button {
+          min-height: 22px;
+          padding: 0 3px;
+          border-color: #b9c5d5;
+          border-radius: 12px;
+          background: #ffffff;
+          color: var(--text);
+          font-size: 0.52rem;
+          font-weight: 950;
+          line-height: 1.1;
+          box-shadow: 0 4px 12px rgba(24, 38, 62, 0.08);
+        }
+
+        .mode-button.is-active,
+        .solve-button.is-active,
+        .support-button.is-active {
+          border-color: #111827;
+          background: #111827;
+          color: #ffffff;
+          box-shadow: 0 8px 18px rgba(17, 24, 39, 0.24);
+        }
+
+        .reset-button {
+          min-height: 26px;
+          margin-bottom: 8px;
+          border-color: #b9c5d5;
+          border-radius: 12px;
+          font-size: 0.58rem;
+          background: #ffffff;
+        }
+
+        .toggle-caption {
+          margin-bottom: 4px;
+          font-size: 0.58rem;
+          color: #334155;
         }
 
         .solve-toggle {
-          grid-template-columns: 1fr;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
         }
 
         .support-toggle {
-          grid-template-columns: 1fr;
+          grid-template-columns: 30px repeat(3, minmax(0, 1fr));
+          gap: 5px;
+          margin-bottom: 8px;
+          padding: 6px;
+          border-color: rgba(18, 128, 92, 0.46);
+          border-radius: 16px;
+          background: rgba(18, 128, 92, 0.16);
+        }
+
+        .support-label {
+          color: #334155;
+          font-size: 0.5rem;
+          line-height: 1.05;
+          text-align: center;
+          word-break: keep-all;
+        }
+
+        .support-label::after {
+          content: "";
+        }
+
+        .field {
+          margin-bottom: 8px;
+        }
+
+        .field-profit-target {
+          margin-bottom: 9px;
+          padding: 9px;
+          border-color: rgba(18, 128, 92, 0.52);
+          border-radius: 20px;
+          background:
+            linear-gradient(135deg, rgba(18, 128, 92, 0.28), rgba(33, 118, 255, 0.18)),
+            #ffffff;
+          box-shadow: 0 10px 24px rgba(18, 128, 92, 0.12);
+        }
+
+        .field-profit-target::before {
+          height: 3px;
+        }
+
+        .goal-kicker {
+          display: none;
+        }
+
+        .field-head {
+          gap: 4px;
+          margin-bottom: 2px;
+        }
+
+        label,
+        .rate-head span:first-child {
+          font-size: 0.6rem;
+          font-weight: 950;
+          color: var(--text);
+        }
+
+        .field-profit-target label,
+        .field-profit-target .unit,
+        .field-profit-target .live-value {
+          color: var(--success);
+        }
+
+        .field-waste label,
+        .field-waste .unit,
+        .field-waste .live-value {
+          color: var(--danger);
+        }
+
+        .field-discount label,
+        .field-discount .unit,
+        .field-discount .live-value {
+          color: var(--purple);
+        }
+
+        .live-value,
+        .rate-value {
+          max-width: 56%;
+          padding: 3px 6px;
+          border-radius: 8px;
+          font-size: 0.58rem;
+          font-weight: 950;
+          background: rgba(33, 118, 255, 0.2);
+        }
+
+        .field-sales input,
+        .field-profit-target input,
+        .field-waste input,
+        .field-discount input {
+          padding: 0 20px;
+          text-align: center;
+          font-size: var(--amount-font-size, 0.74rem);
+        }
+
+        .field-sales input.is-long-number,
+        .field-profit-target input.is-long-number,
+        .field-waste input.is-long-number,
+        .field-discount input.is-long-number {
+          --amount-font-size: 0.64rem;
+        }
+
+        .field-sales input.is-extra-long-number,
+        .field-profit-target input.is-extra-long-number,
+        .field-waste input.is-extra-long-number,
+        .field-discount input.is-extra-long-number {
+          --amount-font-size: 0.58rem;
+        }
+
+        input {
+          height: 30px;
+          padding: 0 24px 0 8px;
+          border-color: #b9c5d5;
+          border-radius: 12px;
+          background: #ffffff;
+          color: var(--text);
+          font-size: 0.74rem;
+          font-weight: 850;
+          box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+        }
+
+        .unit {
+          right: 6px;
+          font-size: 0.5rem;
+          font-weight: 950;
+        }
+
+        input[type="range"] {
+          -webkit-appearance: none;
+          appearance: none;
+          height: 44px;
+          margin-top: 4px;
+          accent-color: currentColor;
+          touch-action: pan-y;
+        }
+
+        input[type="range"]::-webkit-slider-runnable-track {
+          height: 16px;
+          border-radius: 999px;
+          background: linear-gradient(180deg, #d6dee9, #b9c5d5);
+          box-shadow: inset 0 1px 2px rgba(17, 24, 39, 0.18);
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 36px;
+          height: 36px;
+          margin-top: -10px;
+          border: 3px solid #ffffff;
+          border-radius: 50%;
+          background: currentColor;
+          box-shadow:
+            0 6px 16px rgba(17, 24, 39, 0.32),
+            0 1px 0 rgba(255, 255, 255, 0.9) inset;
+        }
+
+        input[type="range"]::-moz-range-track {
+          height: 16px;
+          border-radius: 999px;
+          background: linear-gradient(180deg, #d6dee9, #b9c5d5);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+          width: 34px;
+          height: 34px;
+          border: 3px solid #ffffff;
+          border-radius: 50%;
+          background: currentColor;
+          box-shadow: 0 4px 12px rgba(17, 24, 39, 0.28);
+        }
+
+        .field-sales input[type="range"] {
+          color: var(--primary);
+        }
+
+        .field-profit-target input[type="range"] {
+          color: var(--success);
+        }
+
+        .field-waste input[type="range"] {
+          color: var(--danger);
+        }
+
+        .field-discount input[type="range"] {
+          color: var(--purple);
+        }
+
+        .rate-control {
+          margin-top: 5px;
+          padding: 6px;
+          border-color: rgba(71, 85, 105, 0.32);
+          background: #ffffff;
+          border-radius: 14px;
+        }
+
+        .rate-head {
+          gap: 4px;
+          margin-bottom: 1px;
+        }
+
+        .hint {
+          min-height: 0;
+          margin: 0;
+          font-size: 0.58rem;
+        }
+
+        .result {
+          padding: 12px 12px 10px;
+          background: linear-gradient(135deg, rgba(18, 128, 92, 0.28), rgba(33, 118, 255, 0.2));
+          border-bottom-color: var(--line);
+        }
+
+        .result-label {
+          margin-bottom: 3px;
+          color: #334155;
+          font-size: 0.76rem;
+          font-weight: 950;
+          letter-spacing: 0;
+        }
+
+        .result-value {
+          font-size: clamp(2.6rem, 11.2vw, 3.55rem);
+          font-weight: 950;
+          letter-spacing: -1px;
+          line-height: 0.92;
+          white-space: nowrap;
+        }
+
+        .breakdown {
+          grid-template-columns: 1fr 1fr;
+          gap: 4px;
+          margin-top: 6px;
+        }
+
+        .metric {
+          padding: 7px;
+          background: #ffffff;
+          border-color: rgba(71, 85, 105, 0.36);
+          border-radius: 14px;
+          box-shadow: 0 8px 18px rgba(24, 38, 62, 0.08);
+        }
+
+        .metric span,
+        .target-summary span {
+          color: #334155;
+          font-size: 0.58rem;
+          font-weight: 900;
+        }
+
+        .metric strong,
+        .target-summary strong {
+          font-size: 0.86rem;
+          font-weight: 950;
+          letter-spacing: -1px;
+          white-space: nowrap;
+        }
+
+        .impact-panel {
+          gap: 3px;
+          margin-top: 5px;
+        }
+
+        .impact-row {
+          grid-template-columns: 45px 1fr 28px;
+          gap: 4px;
+          color: var(--muted);
+          font-size: 0.54rem;
+        }
+
+        .impact-track {
+          height: 8px;
+        }
+
+        .impact-value {
+          grid-column: auto;
+          text-align: right;
+        }
+
+        .target-summary {
+          gap: 4px;
+          margin-top: 7px;
+          padding: 9px;
+          background: rgba(18, 128, 92, 0.22);
+          border-color: rgba(18, 128, 92, 0.48);
+          border-radius: 16px;
+          box-shadow: 0 10px 24px rgba(18, 128, 92, 0.1);
+        }
+
+        #targetStatus {
+          white-space: nowrap;
+        }
+
+        .chart-area {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          min-height: 0;
+          padding: 7px;
+          background: #ffffff;
+        }
+
+        .chart-title {
+          gap: 4px;
+          margin-bottom: 4px;
+        }
+
+        .chart-title h2 {
+          font-size: 0.78rem;
+        }
+
+        .chart-title p {
+          display: none;
+        }
+
+        .chart-expand-button {
+          width: 28px;
+          height: 28px;
+          border-radius: 10px;
+          font-size: 0.9rem;
+        }
+
+        .graph-controls {
+          gap: 3px;
+          margin-bottom: 3px;
+        }
+
+        .graph-button {
+          min-height: 22px;
+          padding: 0 5px;
+          border-radius: 12px;
+          font-size: 0.56rem;
+        }
+
+        .chart-legend {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 5px 7px;
+          margin: 4px 0 6px;
+          padding: 7px;
+          border: 1px solid #c6d1df;
+          border-radius: 14px;
+          background: #ffffff;
+          box-shadow: 0 8px 18px rgba(24, 38, 62, 0.08);
+        }
+
+        .chart-legend-item {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          min-width: 0;
+          color: #111827;
+          font-size: 0.62rem;
+          font-weight: 950;
+          line-height: 1.1;
+          white-space: nowrap;
+        }
+
+        .chart-legend-marker {
+          width: 9px;
+          height: 9px;
+          flex: 0 0 9px;
+          border: 2px solid currentColor;
+          border-radius: 999px;
+          background: currentColor;
+        }
+
+        .chart-box {
+          flex: 1;
+          min-height: clamp(390px, 63svh, 520px);
+          height: auto;
         }
 
         .scenario-grid {
-          grid-template-columns: 1fr;
+          display: none;
+        }
+
+        .scenario {
+          padding: 5px;
+          border-radius: 6px;
+        }
+
+        .scenario span {
+          font-size: 0.5rem;
+        }
+
+        .scenario strong {
+          font-size: 0.68rem;
         }
       }
     </style>
@@ -707,7 +1281,7 @@
             </div>
 
             <div class="support-toggle" id="supportToggle" aria-label="厨房支援率">
-              <span class="support-label">対象支援</span>
+              <span class="support-label">対象<br />支援</span>
               <button class="support-button" type="button" data-support-rate="7">7%</button>
               <button class="support-button" type="button" data-support-rate="8">8%</button>
               <button class="support-button" type="button" data-support-rate="10">10%</button>
@@ -728,6 +1302,8 @@
                 PL
               </button>
             </div>
+
+            <button class="reset-button" id="resetButton" type="button">クリア（Reset）</button>
 
             <div class="field field-days">
               <div class="field-head">
@@ -865,7 +1441,7 @@
           <section class="panel result-panel">
             <div class="result">
               <p class="result-label" id="resultLabel">PL</p>
-              <p class="result-value" id="grossProfit">PL：-</p>
+              <p class="result-value" id="grossProfit">-</p>
 
               <div class="breakdown" aria-label="計算内訳">
                 <div class="metric">
@@ -908,6 +1484,15 @@
               <div class="chart-title">
                 <h2>線形予測グラフ</h2>
                 <p id="chartClickHint">クリックで作成高に反映</p>
+                <button
+                  class="chart-expand-button"
+                  id="chartExpandButton"
+                  type="button"
+                  aria-label="グラフを拡大"
+                  title="グラフを拡大"
+                >
+                  ⛶
+                </button>
               </div>
               <div class="graph-controls" aria-label="グラフ表示範囲">
                 <button class="graph-button" type="button" data-graph-range="1.5">1.5倍</button>
@@ -915,27 +1500,9 @@
                 <button class="graph-button" type="button" data-graph-range="3">3倍</button>
                 <button class="graph-button" type="button" data-graph-range="5">5倍</button>
               </div>
+              <div class="chart-legend" id="chartLegend" aria-label="グラフ凡例"></div>
               <div class="chart-box">
-                <canvas id="profitChart" aria-label="ケース別の荒利益高グラフ"></canvas>
-              </div>
-
-              <div class="scenario-grid" aria-label="ケース別の現在値">
-                <div class="scenario">
-                  <span>荒利益高のみ</span>
-                  <strong id="scenarioBase">-</strong>
-                </div>
-                <div class="scenario">
-                  <span>廃棄あり</span>
-                  <strong id="scenarioWaste">-</strong>
-                </div>
-                <div class="scenario">
-                  <span>値引あり</span>
-                  <strong id="scenarioDiscount">-</strong>
-                </div>
-                <div class="scenario is-active">
-                  <span>現在計画</span>
-                  <strong id="scenarioBoth">-</strong>
-                </div>
+                <canvas id="profitChart" aria-label="PLグラフ"></canvas>
               </div>
             </div>
           </section>
@@ -969,6 +1536,7 @@
       const resultLabelOutput = document.getElementById("resultLabel");
       const grossProfitOutput = document.getElementById("grossProfit");
       const baseProfitOutput = document.getElementById("baseProfit");
+      const breakdownPanel = document.querySelector(".breakdown");
       const kitchenBonusMetric = document.getElementById("kitchenBonusMetric");
       const kitchenBonusOutput = document.getElementById("kitchenBonus");
       const wasteImpactBar = document.getElementById("wasteImpactBar");
@@ -978,13 +1546,13 @@
       const requiredSalesOutput = document.getElementById("requiredSales");
       const targetSummaryLabel = document.getElementById("targetSummaryLabel");
       const targetStatus = document.getElementById("targetStatus");
-      const scenarioBaseOutput = document.getElementById("scenarioBase");
-      const scenarioWasteOutput = document.getElementById("scenarioWaste");
-      const scenarioDiscountOutput = document.getElementById("scenarioDiscount");
-      const scenarioBothOutput = document.getElementById("scenarioBoth");
       const chartCanvas = document.getElementById("profitChart");
+      const chartLegend = document.getElementById("chartLegend");
       const chartClickHint = document.getElementById("chartClickHint");
+      const chartArea = document.querySelector(".chart-area");
+      const chartExpandButton = document.getElementById("chartExpandButton");
       const supportToggle = document.getElementById("supportToggle");
+      const resetButton = document.getElementById("resetButton");
       const graphRangeButtons = document.querySelectorAll(".graph-button");
       const modeButtons = document.querySelectorAll(".mode-button");
       const solveButtons = document.querySelectorAll(".solve-button");
@@ -1021,8 +1589,8 @@
 
           ctx.save();
           ctx.setLineDash([6, 6]);
-          ctx.lineWidth = 2.2;
-          ctx.strokeStyle = "rgba(217, 45, 32, 0.82)";
+          ctx.lineWidth = getChartVisuals().guideLineWidth;
+          ctx.strokeStyle = "rgba(17, 24, 39, 0.82)";
           ctx.beginPath();
           ctx.moveTo(pointX, pointY);
           ctx.lineTo(pointX, originY);
@@ -1034,28 +1602,33 @@
           drawGuideTriangle(ctx, pointX, originY, "up");
           drawGuideTriangle(ctx, originX, pointY, "right");
 
+          ctx.shadowColor = "rgba(17, 24, 39, 0.28)";
+          ctx.shadowBlur = 10;
+          ctx.shadowOffsetY = 3;
           ctx.fillStyle = "#ffffff";
-          ctx.strokeStyle = "#111827";
-          ctx.lineWidth = 3;
           ctx.beginPath();
-          ctx.arc(pointX, pointY, 5.5, 0, Math.PI * 2);
+          ctx.arc(pointX, pointY, getChartVisuals().currentPointOuterRadius, 0, Math.PI * 2);
           ctx.fill();
-          ctx.stroke();
+          ctx.shadowColor = "transparent";
+          ctx.fillStyle = "#111827";
+          ctx.beginPath();
+          ctx.arc(pointX, pointY, getChartVisuals().currentPointInnerRadius, 0, Math.PI * 2);
+          ctx.fill();
 
           drawChartBadge(
             ctx,
             `${getPrimaryAmountLabel()} ${formatYen(currentPoint.x)}`,
             pointX - 72,
             Math.min(originY - 38, chartArea.bottom - 38),
-            "#d92d20",
+            "#111827",
             chartArea
           );
           drawChartBadge(
             ctx,
-            `荒利益 ${formatYen(currentPoint.y)}`,
+            `PL ${formatYen(currentPoint.y)}`,
             chartArea.left + 8,
             clamp(pointY - 34, chartArea.top + 8, chartArea.bottom - 38),
-            "#d92d20",
+            "#12805c",
             chartArea
           );
           ctx.restore();
@@ -1066,6 +1639,31 @@
         return `${yenFormatter.format(Math.round(value))}円`;
       }
 
+      function formatMainYen(value) {
+        return `${yenFormatter.format(Math.round(value))}<span class="yen-unit">円</span>`;
+      }
+
+      function formatCompactYen(value) {
+        const rounded = Math.round(value);
+        const sign = rounded < 0 ? "-" : "";
+        const absolute = Math.abs(rounded);
+
+        if (absolute >= 10000) {
+          return `${sign}${Number((absolute / 10000).toFixed(1)).toString()}万`;
+        }
+
+        if (absolute >= 1000) {
+          return `${sign}${Number((absolute / 1000).toFixed(1)).toString()}千`;
+        }
+
+        return `${sign}${yenFormatter.format(absolute)}`;
+      }
+
+      function formatLiveYen(value) {
+        const rounded = Math.round(value);
+        return Math.abs(rounded) >= 10000 ? formatCompactYen(rounded) : formatYen(rounded);
+      }
+
       function formatPercent(value) {
         return `${Number(value).toFixed(1).replace(/\.0$/, "")}%`;
       }
@@ -1074,9 +1672,83 @@
         return Math.min(Math.max(value, min), max);
       }
 
+      function isMobileChart() {
+        return window.matchMedia("(max-width: 768px)").matches;
+      }
+
+      function getChartVisuals() {
+        const mobile = isMobileChart();
+
+        return {
+          legendFontSize: mobile ? 16 : 9,
+          legendBoxSize: mobile ? 16 : 12,
+          axisTitleSize: mobile ? 9 : 8,
+          axisTickSize: mobile ? 11 : 7,
+          badgeFontSize: mobile ? 13 : 8,
+          badgeHeight: mobile ? 28 : 17,
+          badgePaddingX: mobile ? 9 : 5,
+          badgePaddingY: mobile ? 4 : 2,
+          mainLineWidth: mobile ? 3.3 : 2.2,
+          guideLineWidth: mobile ? 3 : 2.5,
+          currentPointOuterRadius: mobile ? 9 : 7,
+          currentPointInnerRadius: mobile ? 5.2 : 4
+        };
+      }
+
+      function getLegendColor(dataset) {
+        if (dataset.label === "現在値") {
+          return "#111827";
+        }
+        if (dataset.label.includes("廃棄")) {
+          return "#d92d20";
+        }
+        if (dataset.label.includes("値引")) {
+          return "#7d4cc2";
+        }
+        return "#12805c";
+      }
+
+      function renderChartLegend() {
+        if (!profitChart || !chartLegend) {
+          return;
+        }
+
+        const order = ["PLライン", "廃棄なしの場合", "値引きなしの場合", "現在値"];
+        const shortLabels = {
+          "PLライン": "PL",
+          "廃棄なしの場合": "廃棄無し",
+          "値引きなしの場合": "値引無し",
+          "現在値": "現在値"
+        };
+        const datasets = profitChart.data.datasets
+          .filter((dataset) => Array.isArray(dataset.data) && dataset.data.length > 0)
+          .filter((dataset) => order.includes(dataset.label))
+          .sort((a, b) => order.indexOf(a.label) - order.indexOf(b.label));
+
+        chartLegend.innerHTML = datasets
+          .map((dataset) => {
+            const color = getLegendColor(dataset);
+            return `<div class="chart-legend-item" style="color: ${color}"><span class="chart-legend-marker"></span><span>${shortLabels[dataset.label] || dataset.label}</span></div>`;
+          })
+          .join("");
+      }
+
+      function toggleChartExpanded() {
+        const isExpanded = chartArea.classList.toggle("is-expanded");
+        document.body.classList.toggle("graph-expanded", isExpanded);
+        chartExpandButton.textContent = isExpanded ? "×" : "⛶";
+        chartExpandButton.setAttribute("aria-label", isExpanded ? "グラフを閉じる" : "グラフを拡大");
+        chartExpandButton.setAttribute("title", isExpanded ? "グラフを閉じる" : "グラフを拡大");
+
+        requestAnimationFrame(() => {
+          profitChart?.resize();
+          profitChart?.update();
+        });
+      }
+
       function drawGuideTriangle(ctx, x, y, direction) {
         ctx.save();
-        ctx.fillStyle = "#d92d20";
+        ctx.fillStyle = "#111827";
         ctx.strokeStyle = "#ffffff";
         ctx.lineWidth = 1.8;
         ctx.beginPath();
@@ -1098,25 +1770,30 @@
       }
 
       function drawChartBadge(ctx, text, x, y, color, chartArea) {
+        const visuals = getChartVisuals();
         ctx.save();
-        ctx.font = "800 9px 'Noto Sans JP', 'Yu Gothic', sans-serif";
+        ctx.font = `900 ${visuals.badgeFontSize}px 'Noto Sans JP', 'Yu Gothic', sans-serif`;
 
-        const paddingX = 6;
-        const paddingY = 4;
+        const paddingX = visuals.badgePaddingX;
+        const paddingY = visuals.badgePaddingY;
         const width = ctx.measureText(text).width + paddingX * 2;
-        const height = 20;
-        const radius = 6;
+        const height = visuals.badgeHeight;
+        const radius = 8;
         const badgeX = chartArea ? clamp(x, chartArea.left + 6, chartArea.right - width - 6) : x;
         const badgeY = chartArea ? clamp(y, chartArea.top + 6, chartArea.bottom - height - 6) : y;
 
-        ctx.fillStyle = "rgba(255, 255, 255, 0.96)";
+        ctx.shadowColor = "rgba(17, 24, 39, 0.16)";
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetY = 3;
+        ctx.fillStyle = "rgba(255, 255, 255, 0.98)";
         ctx.strokeStyle = color;
-        ctx.lineWidth = 1.5;
+        ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.roundRect(badgeX, badgeY, width, height, radius);
         ctx.fill();
         ctx.stroke();
 
+        ctx.shadowColor = "transparent";
         ctx.fillStyle = color;
         ctx.fillText(text, badgeX + paddingX, badgeY + height - paddingY - 2);
         ctx.restore();
@@ -1141,6 +1818,10 @@
       function updateKitchenSupportVisibility() {
         const isKitchenMode = currentMode === "kitchen";
         kitchenBonusMetric.classList.toggle("is-hidden", !isKitchenMode);
+      }
+
+      function updateReverseResultLayout(isReverseMode) {
+        breakdownPanel.classList.toggle("is-hidden", isReverseMode);
       }
 
       function getTargetInputLabel() {
@@ -1194,15 +1875,28 @@
         }
 
         sliderInput.value = String(value);
+        updateAmountInputClass(numberInput);
       }
 
       function clearInputPair(numberInput, sliderInput) {
         numberInput.value = "";
         sliderInput.value = "0";
+        updateAmountInputClass(numberInput);
       }
 
       function syncSliderToNumber(sliderInput, numberInput) {
         numberInput.value = sliderInput.value;
+        updateAmountInputClass(numberInput);
+      }
+
+      function updateAmountInputClass(input) {
+        const digits = input.value.replace(/\D/g, "").length;
+        input.classList.toggle("is-long-number", digits >= 6);
+        input.classList.toggle("is-extra-long-number", digits >= 7);
+      }
+
+      function updateAmountInputClasses() {
+        [salesTargetInput, wasteAmountInput, discountAmountInput, profitTargetInput].forEach(updateAmountInputClass);
       }
 
       function syncAmountToRate(amountInput, rateSlider) {
@@ -1352,6 +2046,12 @@
         return calculatePL(result.grossProfit, result.kitchenBonus);
       }
 
+      function calculateGraphPL(amount, wasteAmount, discountAmount) {
+        const result = calculateProfitByCurrentMode(amount, wasteAmount, discountAmount);
+
+        return calculatePL(result.grossProfit, result.kitchenBonus);
+      }
+
       function findRequiredCreationByTarget(targetAmount, wasteAmount, discountAmount, valueGetter) {
         let low = 0;
         let high = 999999;
@@ -1433,13 +2133,15 @@
       function updateOutputs(result) {
         const isReverseMode = isReverseSolveMode();
         const isSalesMode = solveMode === "sales";
-        const resultName = isReverseMode ? "作成高" : "PL";
+        const resultLabel = isReverseMode ? "必要な作成高" : "PL";
         const displayedResult = (isReverseMode ? result.requiredSales : result.pl) * result.targetDays;
+        const hasTargetDays = hasInputValue(targetDaysInput);
 
-        resultLabelOutput.textContent = resultName;
-        grossProfitOutput.textContent = `${resultName}：${formatYen(displayedResult)}`;
+        resultLabelOutput.textContent = resultLabel;
+        grossProfitOutput.innerHTML = formatMainYen(displayedResult);
         baseProfitOutput.textContent = formatYen(result.grossProfitBase * result.targetDays);
         updateKitchenSupportVisibility();
+        updateReverseResultLayout(isReverseMode);
 
         if (currentMode === "kitchen") {
           document.getElementById("kitchenBonusLabel").textContent =
@@ -1460,35 +2162,39 @@
           syncNumberToSlider(profitTargetInput, profitTargetSlider);
         }
 
-        salesTargetLive.textContent = formatYen(isReverseMode ? result.requiredSales : result.salesTarget);
-        wasteAmountLive.textContent = formatYen(result.wasteAmount);
-        discountAmountLive.textContent = formatYen(result.discountAmount);
-        profitTargetLive.textContent = formatYen(isReverseMode ? result.profitTarget : result.pl);
+        salesTargetLive.textContent = formatLiveYen(isReverseMode ? result.requiredSales : result.salesTarget);
+        wasteAmountLive.textContent = formatLiveYen(result.wasteAmount);
+        discountAmountLive.textContent = formatLiveYen(result.discountAmount);
+        profitTargetLive.textContent = formatLiveYen(isReverseMode ? result.profitTarget : result.pl);
         targetDaysLive.textContent = hasInputValue(targetDaysInput) ? `${formatYen(result.targetDays).replace("円", "")}日` : "1日";
         wasteRateLive.textContent = formatPercent(wasteRateSlider.value);
         discountRateLive.textContent = formatPercent(discountRateSlider.value);
         targetSummaryLabel.textContent = isSalesMode ? "対象日数分の販売高" : "対象日数分の必要な作成高";
-        requiredSalesOutput.textContent = isSalesMode
-          ? formatYen(result.salesTarget * result.targetDays)
-          : formatYen(result.requiredSales * result.targetDays);
-        targetStatus.textContent = isReverseMode
-          ? solveMode === "gross"
-            ? "荒利益高逆算"
-            : "PL逆算"
+        requiredSalesOutput.textContent = !hasTargetDays
+          ? "-"
           : isSalesMode
-            ? "実績計算"
-            : "自動計算";
+            ? formatYen(result.salesTarget * result.targetDays)
+            : formatYen(result.requiredSales * result.targetDays);
+        targetStatus.textContent = !hasTargetDays
+          ? "未入力"
+          : isReverseMode
+            ? "作成高"
+            : isSalesMode
+              ? "実績計算"
+              : "自動計算";
+        updateAmountInputClasses();
       }
 
       function updateBlankOutputs() {
         const isReverseMode = isReverseSolveMode();
         const isSalesMode = solveMode === "sales";
-        const resultName = isReverseMode ? "作成高" : "PL";
+        const resultLabel = isReverseMode ? "必要な作成高" : "PL";
 
-        resultLabelOutput.textContent = resultName;
-        grossProfitOutput.textContent = `${resultName}：-`;
+        resultLabelOutput.textContent = resultLabel;
+        grossProfitOutput.textContent = "-";
         baseProfitOutput.textContent = "-";
         updateKitchenSupportVisibility();
+        updateReverseResultLayout(isReverseMode);
 
         if (currentMode === "kitchen") {
           document.getElementById("kitchenBonusLabel").textContent = "厨房支援";
@@ -1505,16 +2211,16 @@
         }
 
         salesTargetLive.textContent = hasInputValue(salesTargetInput)
-          ? formatYen(readPositiveNumber(salesTargetInput))
+          ? formatLiveYen(readPositiveNumber(salesTargetInput))
           : "-";
         wasteAmountLive.textContent = hasInputValue(wasteAmountInput)
-          ? formatYen(readPositiveNumber(wasteAmountInput))
+          ? formatLiveYen(readPositiveNumber(wasteAmountInput))
           : "-";
         discountAmountLive.textContent = hasInputValue(discountAmountInput)
-          ? formatYen(readPositiveNumber(discountAmountInput))
+          ? formatLiveYen(readPositiveNumber(discountAmountInput))
           : "-";
         profitTargetLive.textContent = hasInputValue(profitTargetInput)
-          ? formatYen(readPositiveNumber(profitTargetInput))
+          ? formatLiveYen(readPositiveNumber(profitTargetInput))
           : "-";
         targetDaysLive.textContent = hasInputValue(targetDaysInput)
           ? `${formatYen(readTargetDays()).replace("円", "")}日`
@@ -1526,23 +2232,11 @@
         requiredSalesOutput.textContent = "-";
         targetSummaryLabel.textContent = isSalesMode ? "対象日数分の販売高" : "対象日数分の必要な作成高";
         targetStatus.textContent = "未入力";
-        scenarioBaseOutput.textContent = "-";
-        scenarioWasteOutput.textContent = "-";
-        scenarioDiscountOutput.textContent = "-";
-        scenarioBothOutput.textContent = "-";
         wasteImpactBar.style.width = "0%";
         discountImpactBar.style.width = "0%";
         wasteImpactValue.textContent = "-";
         discountImpactValue.textContent = "-";
-      }
-
-      function updateScenarioOutputs(result) {
-        scenarioBaseOutput.textContent = formatYen(result.grossProfitBase * result.targetDays);
-        scenarioWasteOutput.textContent = formatYen((result.grossProfitBeforeLoss - result.wasteLoss) * result.targetDays);
-        scenarioDiscountOutput.textContent = formatYen(
-          (result.grossProfitBeforeLoss - result.discountLoss) * result.targetDays
-        );
-        scenarioBothOutput.textContent = formatYen(result.grossProfit * result.targetDays);
+        updateAmountInputClasses();
       }
 
       function updateImpactBars(result) {
@@ -1591,43 +2285,38 @@
 
             return {
               x: sales,
-              y: Math.round(calculateProfitByCurrentMode(sales, projectedWaste, projectedDiscount).grossProfit)
+              y: Math.round(calculateGraphPL(sales, projectedWaste, projectedDiscount))
             };
           }),
           wasteOnly: salesPoints.map((sales) => ({
             x: sales,
-            y: Math.round(calculateProfitByCurrentMode(sales, sales * wasteRate, 0).grossProfit)
+            y: Math.round(calculateGraphPL(sales, sales * wasteRate, 0))
           })),
           discountOnly: salesPoints.map((sales) => ({
             x: sales,
-            y: Math.round(calculateProfitByCurrentMode(sales, 0, sales * discountRate).grossProfit)
+            y: Math.round(calculateGraphPL(sales, 0, sales * discountRate))
           })),
           both: salesPoints.map((sales) => ({
             x: sales,
-            y: Math.round(calculateProfitByCurrentMode(sales, sales * wasteRate, sales * discountRate).grossProfit)
+            y: Math.round(calculateGraphPL(sales, sales * wasteRate, sales * discountRate))
           })),
           currentPoint: [
             {
               x: Math.round(result.activeCreation),
-              y: Math.round(result.grossProfit)
+              y: Math.round(result.pl)
             }
           ],
-          targetPoint: [
-            {
-              x: Math.round(result.requiredSales),
-              y: Math.round(calculateGrossProfit(result.requiredSales, result.wasteAmount, result.discountAmount).grossProfit)
-            }
-          ],
+          targetPoint: [],
           noDiscountPattern: hasDiscount
             ? salesPoints.map((sales) => ({
                 x: sales,
-                y: Math.round(calculateProfitByCurrentMode(sales, sales * wasteRate, 0).grossProfit)
+                y: Math.round(calculateGraphPL(sales, sales * wasteRate, 0))
               }))
             : [],
           noWastePattern: hasWaste
             ? salesPoints.map((sales) => ({
                 x: sales,
-                y: Math.round(calculateProfitByCurrentMode(sales, 0, sales * discountRate).grossProfit)
+                y: Math.round(calculateGraphPL(sales, 0, sales * discountRate))
               }))
             : []
         };
@@ -1635,28 +2324,29 @@
 
       function createChart(result) {
         const projection = createProjectionData(result);
+        const chartVisuals = getChartVisuals();
 
         profitChart = new Chart(chartCanvas, {
           type: "line",
           data: {
             datasets: [
               {
-                label: "荒利益高ライン",
+                label: "PLライン",
                 data: projection.base,
-                borderColor: "#2176ff",
-                backgroundColor: "rgba(33, 118, 255, 0.12)",
-                borderWidth: 1.5,
-                pointRadius: 2,
-                pointHoverRadius: 4,
+                borderColor: "#12805c",
+                backgroundColor: "rgba(18, 128, 92, 0.2)",
+                borderWidth: chartVisuals.mainLineWidth,
+                pointRadius: 2.5,
+                pointHoverRadius: 5,
                 fill: false,
                 tension: 0
               },
               {
                 label: "値引きなしの場合",
                 data: projection.noDiscountPattern,
-                borderColor: "rgba(125, 76, 194, 0.34)",
-                backgroundColor: "rgba(125, 76, 194, 0.08)",
-                borderWidth: 1,
+                borderColor: "rgba(125, 76, 194, 0.7)",
+                backgroundColor: "rgba(125, 76, 194, 0.16)",
+                borderWidth: 1.4,
                 borderDash: [4, 5],
                 pointRadius: 0,
                 pointHoverRadius: 4,
@@ -1666,9 +2356,9 @@
               {
                 label: "廃棄なしの場合",
                 data: projection.noWastePattern,
-                borderColor: "rgba(217, 45, 32, 0.32)",
-                backgroundColor: "rgba(217, 45, 32, 0.08)",
-                borderWidth: 1,
+                borderColor: "rgba(217, 45, 32, 0.7)",
+                backgroundColor: "rgba(217, 45, 32, 0.16)",
+                borderWidth: 1.4,
                 borderDash: [4, 5],
                 pointRadius: 0,
                 pointHoverRadius: 4,
@@ -1679,10 +2369,11 @@
                 label: "現在値",
                 data: projection.currentPoint,
                 type: "scatter",
-                borderColor: "#111827",
+                borderColor: "#ffffff",
                 backgroundColor: "#111827",
-                pointRadius: 5,
-                pointHoverRadius: 7
+                borderWidth: 3,
+                pointRadius: chartVisuals.currentPointOuterRadius,
+                pointHoverRadius: chartVisuals.currentPointOuterRadius + 2
               },
               {
                 label: getTargetPointLabel(),
@@ -1703,14 +2394,16 @@
             },
             plugins: {
               legend: {
-                display: true,
+                display: !isMobileChart(),
                 labels: {
-                  boxWidth: 12,
-                  boxHeight: 12,
+                  boxWidth: chartVisuals.legendBoxSize,
+                  boxHeight: chartVisuals.legendBoxSize,
                   usePointStyle: true,
                   font: {
-                    size: 10
+                    size: chartVisuals.legendFontSize,
+                    weight: "900"
                   },
+                  color: "#111827",
                   filter: (legendItem, data) => {
                     const dataset = data.datasets[legendItem.datasetIndex];
                     return Array.isArray(dataset.data) && dataset.data.length > 0;
@@ -1718,13 +2411,29 @@
                 }
               },
               tooltip: {
+                enabled: true,
+                displayColors: false,
+                titleFont: {
+                  size: isMobileChart() ? 13 : 12,
+                  weight: "900"
+                },
+                bodyFont: {
+                  size: isMobileChart() ? 13 : 12,
+                  weight: "900"
+                },
+                padding: isMobileChart() ? 10 : 8,
+                backgroundColor: "rgba(17, 24, 39, 0.92)",
                 callbacks: {
+                  title: (items) => items[0]?.dataset?.label || "",
                   label: (context) =>
-                    `${context.dataset.label}：${getPrimaryAmountLabel()} ${formatYen(context.parsed.x)} / 荒利益 ${formatYen(
-                      context.parsed.y
-                    )}`
+                    `${getPrimaryAmountLabel()} ${formatYen(context.parsed.x)} / PL ${formatYen(context.parsed.y)}`
                 }
               }
+            },
+            interaction: {
+              mode: "nearest",
+              intersect: false,
+              axis: "xy"
             },
             scales: {
               x: {
@@ -1732,38 +2441,47 @@
                 min: 0,
                 title: {
                   display: true,
-                  text: getPrimaryAmountLabel()
+                  text: getPrimaryAmountLabel(),
+                  font: {
+                    size: chartVisuals.axisTitleSize,
+                    weight: "900"
+                  },
+                  color: "#111827"
                 },
                 ticks: {
                   font: {
-                    size: 10
+                    size: chartVisuals.axisTickSize,
+                    weight: "900"
                   },
-                  callback: (value) => `${yenFormatter.format(value)}円`
+                  color: "#111827",
+                  callback: (value) => formatCompactYen(value)
                 },
                 grid: {
-                  color: "rgba(101, 115, 134, 0.12)"
+                  color: "rgba(71, 85, 105, 0.18)"
                 }
               },
               y: {
                 beginAtZero: true,
                 title: {
-                  display: true,
-                  text: "荒利益高（円）"
+                  display: false
                 },
                 ticks: {
                   font: {
-                    size: 10
+                    size: chartVisuals.axisTickSize,
+                    weight: "900"
                   },
-                  callback: (value) => `${yenFormatter.format(value)}円`
+                  color: "#111827",
+                  callback: (value) => formatCompactYen(value)
                 },
                 grid: {
-                  color: "rgba(101, 115, 134, 0.14)"
+                  color: "rgba(71, 85, 105, 0.18)"
                 }
               }
             }
           },
           plugins: [valueGuidePlugin]
         });
+        renderChartLegend();
       }
 
       function refreshCalculator() {
@@ -1784,6 +2502,7 @@
           profitChart.data.datasets[4].data = [];
             profitChart.data.datasets[4].label = getTargetPointLabel();
           profitChart.options.scales.x.title.text = getPrimaryAmountLabel();
+          renderChartLegend();
           profitChart.update();
           }
 
@@ -1791,7 +2510,6 @@
         }
 
         updateOutputs(result);
-        updateScenarioOutputs(result);
         updateImpactBars(result);
 
         if (profitChart) {
@@ -1803,13 +2521,52 @@
           profitChart.data.datasets[4].data = projection.targetPoint;
           profitChart.data.datasets[4].label = getTargetPointLabel();
           profitChart.options.scales.x.title.text = getPrimaryAmountLabel();
+          renderChartLegend();
           profitChart.update();
         }
+      }
+
+      function showChartTooltipAtEvent(event) {
+        if (!profitChart) {
+          return;
+        }
+
+        const elements = profitChart.getElementsAtEventForMode(
+          event,
+          "nearest",
+          { intersect: false },
+          true
+        );
+
+        if (!elements.length) {
+          return;
+        }
+
+        const { datasetIndex, index } = elements[0];
+        profitChart.setActiveElements([{ datasetIndex, index }]);
+        profitChart.tooltip.setActiveElements([{ datasetIndex, index }], {
+          x: event.offsetX,
+          y: event.offsetY
+        });
+        profitChart.update();
       }
 
       function setInputPair(numberInput, sliderInput, value) {
         numberInput.value = String(value);
         syncNumberToSlider(numberInput, sliderInput);
+      }
+
+      function clearCalculatorInputs() {
+        clearInputPair(salesTargetInput, salesTargetSlider);
+        clearInputPair(wasteAmountInput, wasteAmountSlider);
+        clearInputPair(discountAmountInput, discountAmountSlider);
+        clearInputPair(profitTargetInput, profitTargetSlider);
+        targetDaysInput.value = "";
+        wasteRateSlider.value = "0";
+        discountRateSlider.value = "0";
+        kitchenSupportRate = null;
+        supportButtons.forEach((button) => button.classList.remove("is-active"));
+        refreshCalculator();
       }
 
       [
@@ -1854,6 +2611,9 @@
       });
 
       targetDaysInput.addEventListener("input", refreshCalculator);
+
+      resetButton.addEventListener("click", clearCalculatorInputs);
+      chartExpandButton.addEventListener("click", toggleChartExpanded);
 
       wasteRateSlider.addEventListener("input", () => {
         syncRateToAmount(wasteRateSlider, wasteAmountInput, wasteAmountSlider);
@@ -1911,6 +2671,7 @@
         syncAmountToRate(wasteAmountInput, wasteRateSlider);
         syncAmountToRate(discountAmountInput, discountRateSlider);
         refreshCalculator();
+        showChartTooltipAtEvent(event);
       });
 
       syncAmountToRate(wasteAmountInput, wasteRateSlider);
